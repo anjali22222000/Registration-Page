@@ -1,3 +1,10 @@
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
 /* ================= PASSWORD VALIDATION ================= */
 const password = document.getElementById("password");
 
@@ -59,8 +66,16 @@ if (registerForm) {
 
     localStorage.setItem("user", JSON.stringify(user));
 
-    alert("Registered Successfully!");
-    window.location.href = "login.html";
+
+const userOtp = prompt("Enter OTP:");
+
+if (userOtp == otp) {
+  localStorage.setItem("user", JSON.stringify(user));
+  alert("Registered Successfully ✅");
+  window.location.href = "login.html";
+} else {
+  alert("Wrong OTP ❌");
+}
   });
 }
 
@@ -72,15 +87,62 @@ if (loginForm) {
     e.preventDefault();
 
     const email = document.getElementById("loginEmail").value;
+    if (!validateEmail(email)) {
+   alert("Invalid Email");
+   return;
+}
     const pass = document.getElementById("loginPassword").value;
 
     const user = JSON.parse(localStorage.getItem("user"));
 
     if (user && user.email === email && user.password === pass) {
-      alert("Login Successful 🎉");
-      window.location.href = "account.html";
-    } else {
+  sessionStorage.setItem("isLoggedIn", "true");
+  alert("Login Successful 🎉");
+  window.location.href = "account.html";
+} else {
       alert("Invalid Email or Password ❌");
     }
   });
+}
+function logout() {
+  sessionStorage.removeItem("isLoggedIn");
+  alert("Logged out!");
+  window.location.href = "login.html";
+}
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (user) {
+  document.getElementById("userName").innerText = user.name;
+  document.getElementById("userEmail").innerText = user.email;
+}
+function resetPassword() {
+  const email = document.getElementById("resetEmail").value;
+
+  auth.sendPasswordResetEmail(email)
+    .then(() => alert("Email sent 📩"))
+    .catch(err => alert(err.message));
+}
+
+  if (user && user.email === email) {
+    const newPass = prompt("Enter new password:");
+    user.password = newPass;
+    localStorage.setItem("user", JSON.stringify(user));
+    alert("Password updated!");
+    window.location.href = "login.html";
+  } else {
+    alert("Email not found!");
+  }
+
+function generateOTP() {
+  return Math.floor(100000 + Math.random() * 900000);
+}
+function googleLogin() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+
+  auth.signInWithPopup(provider)
+    .then(() => {
+      alert("Login Success ✅");
+      window.location.href = "account.html";
+    })
+    .catch(err => alert(err.message));
 }
