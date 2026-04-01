@@ -1,24 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="Login.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThreadAura Login</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins&family=Montserrat&display=swap" rel="stylesheet">
 </head>
+
 <body>
 
-<div class="login-container">
-    <h2>Login</h2>
-    
-    <form id="loginForm">
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="password" id="password" placeholder="Password" required>
-        
-        <button type="submit">Login</button>
-    </form>
-
-    <p id="errorMsg"></p>
+<!-- 🌈 Background -->
+<div class="bg-shapes">
+  <span></span><span></span><span></span>
 </div>
 
+<!-- 💎 CARD -->
+<div class="card">
+
+  <!-- LEFT FORM -->
+  <div class="form-section">
+    <h1>Welcome Back</h1>
+
+    <form id="loginForm">
+
+      <input type="email" id="loginEmail" placeholder="Email" required>
+
+      <div class="password-box">
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <span onclick="toggleLoginPassword()">👁️</span>
+      </div>
+
+      <button type="submit" class="primary-btn">Login</button>
+
+    </form>
+
+    <div class="divider">or</div>
+
+    <button class="social google">Login with Google</button>
+    <button class="social facebook">Login with Facebook</button>
+
+    <p>Don't have account? <a href="register.html">Sign up</a></p>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="visual-section">
+  <img src="hector-j-rivas-Nh6NsnqYVsI-unsplash.jpg" alt="Textile" class="visual-img">
+</div>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>

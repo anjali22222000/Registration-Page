@@ -1,0 +1,191 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+  font-family: 'Poppins', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #ff3cac, #784ba0, #2b86c5);
+  background-size: 300% 300%;
+  animation: gradientMove 8s ease infinite;
+
+  overflow: hidden;
+}
+
+/* GRADIENT ANIMATION */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* BLOBS */
+.bg-shapes span {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.6;
+}
+
+.bg-shapes span:nth-child(1) {
+  width: 200px;
+  height: 200px;
+  background: #ff0080;
+  top: 10%;
+  left: 5%;
+}
+
+.bg-shapes span:nth-child(2) {
+  width: 250px;
+  height: 250px;
+  background: #ffcc00;
+  bottom: 10%;
+  left: 10%;
+}
+
+.bg-shapes span:nth-child(3) {
+  width: 180px;
+  height: 180px;
+  background: #00f5d4;
+  top: 20%;
+  right: 10%;
+}
+
+/* CARD */
+.card {
+  display: flex;
+  width: 900px;
+  min-height: 550px;
+
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(20px);
+
+  border-radius: 20px;
+  overflow: hidden;
+
+  box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+}
+
+/* FORM */
+.form-section {
+  flex: 1;
+  padding: 40px;
+  color: white;
+
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.form-section h1 {
+  font-family: 'Playfair Display';
+  margin-bottom: 15px;
+}
+
+/* INPUT */
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+
+  border-radius: 10px;
+  border: none;
+
+  background: rgba(255,255,255,0.2);
+  color: white;
+}
+
+/* PHONE */
+.phone-box {
+  display: flex;
+  gap: 10px;
+}
+
+/* PASSWORD */
+.password-box {
+  position: relative;
+}
+
+.password-box span {
+  position: absolute;
+  right: 10px;
+  top: 12px;
+  cursor: pointer;
+}
+
+/* BUTTON */
+.primary-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+
+  background: linear-gradient(135deg, #ff512f, #dd2476);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-family: 'Montserrat';
+  cursor: pointer;
+}
+
+/* SOCIAL */
+.social {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.google { background: #db4437; color: white; }
+.facebook { background: #3b5998; color: white; }
+
+/* DIVIDER */
+.divider {
+  text-align: center;
+  margin: 15px 0;
+}
+
+/* RIGHT IMAGE */
+.visual-section {
+  flex: 1;
+  position: relative;
+}
+
+.visual-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* OVERLAY TEXT */
+.overlay-text {
+  position: absolute;
+  bottom: 30px;
+  left: 30px;
+  color: white;
+}
+
+.overlay-text h2 {
+  font-family: 'Playfair Display';
+  font-size: 32px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    width: 95%;
+  }
+
+  .visual-section {
+    height: 200px;
+  }
+}
