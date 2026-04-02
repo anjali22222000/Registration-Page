@@ -144,7 +144,7 @@ input, select {
 }
 input:focus, select:focus {
   outline: none;
-  border: 1px solid #ff512f;
+  border: 1px solid #833520;
   box-shadow: 0 0 10px rgba(255,81,47,0.5);
 }
 /* SOCIAL */
@@ -157,7 +157,7 @@ input:focus, select:focus {
   cursor: pointer;
 }
 
-.google { background: #db4437; color: white; }
+.google { background: #E77A9B; color: white; }
 .facebook { background: #3b5998; color: white; }
 
 /* DIVIDER */
@@ -245,7 +245,7 @@ input:focus, select:focus {
   font-size: 14px;
   margin-top: 10px;
 
-  background: linear-gradient(135deg, #ff512f, #dd2476);
+  background: linear-gradient(135deg, #95859C, #E77A9B);
   border: none;
   border-radius: 8px;
   color: white;
