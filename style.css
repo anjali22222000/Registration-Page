@@ -13,7 +13,7 @@ body {
   justify-content: center;
   align-items: center;
 
-  background: linear-gradient(135deg, #ff3cac, #784ba0, #2b86c5);
+  background: linear-gradient(135deg, #F8F4F1, #8D5B4C, #5A2A27);
   background-size: 300% 300%;
   animation: gradientMove 8s ease infinite;
 
@@ -38,7 +38,7 @@ body {
 .bg-shapes span:nth-child(1) {
   width: 200px;
   height: 200px;
-  background: #ff0080;
+  background: #8d5b4c;
   top: 10%;
   left: 5%;
 }
@@ -46,7 +46,7 @@ body {
 .bg-shapes span:nth-child(2) {
   width: 250px;
   height: 250px;
-  background: #ffcc00;
+  background: #000000;
   bottom: 10%;
   left: 10%;
 }
@@ -54,7 +54,7 @@ body {
 .bg-shapes span:nth-child(3) {
   width: 180px;
   height: 180px;
-  background: #00f5d4;
+  background: #000000;
   top: 20%;
   right: 10%;
 }
@@ -129,7 +129,7 @@ input, select {
   padding: 12px;
   margin-top: 10px;
 
-  background: linear-gradient(135deg, #ff512f, #dd2476);
+  background: linear-gradient(135deg, #4F4789, #000000);
   border: none;
   border-radius: 10px;
   color:white;
