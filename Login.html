@@ -1,58 +1,130 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ThreadAura Login</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Telphavastra Login</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins&family=Montserrat&display=swap" rel="stylesheet">
-</head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins&family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
+  <body>
+    <!-- 🌈 Background -->
+    <div class="bg-shapes"><span></span><span></span><span></span></div>
 
-<!-- 🌈 Background -->
-<div class="bg-shapes">
-  <span></span><span></span><span></span>
+    <!-- 💎 CARD -->
+    <div class="card">
+      <!-- LEFT FORM -->
+      <div class="form-section">
+        <h1>Welcome Back</h1>
+
+        <form id="loginForm">
+          <!-- 🔘 SELECT LOGIN TYPE -->
+          <select id="loginType" onchange="toggleLoginType()">
+            <option value="phone">Login with Phone</option>
+            <option value="email">Login with Email</option>
+            <option value="username">Login via Username</option>
+          </select>
+
+          <!-- 📱 PHONE INPUT -->
+          <input
+            type="tel"
+            id="phone"
+            placeholder="Enter Phone (+91...)"
+            style="display: block"
+          />
+
+          <!-- 📧 EMAIL INPUT -->
+          <input
+            type="email"
+            id="loginEmail"
+            placeholder="Enter Email"
+            style="display: none"
+          />
+
+          <!-- 👤 USERNAME INPUT -->
+          <input
+            type="text"
+            id="loginUsername"
+            placeholder="Enter Username"
+            style="display: none"
+          />
+          <input
+            type="password"
+            id="loginPassword"
+            placeholder="Enter Password"
+            style="display: none"
+          />
+          <!-- 🔐 OTP SECTION (HIDDEN INITIALLY) -->
+          <div id="loginOtpSection" style="display: none">
+            <input type="text" id="loginOtp" placeholder="Enter OTP" />
+
+            <button type="button" class="verify-btn" onclick="verifyLoginOTP()">
+              Verify OTP
+            </button>
+
+            <!-- 🔥 NEW RESEND BUTTON -->
+            <button
+              type="button"
+              class="resend-btn"
+              id="resendBtn"
+              onclick="resendOTP()"
+              disabled
+            >
+              Resend OTP in 30s
+            </button>
+
+            <!-- OPTIONAL MESSAGE -->
+            <p id="otpMsg" class="otp-msg"></p>
+          </div>
+
+          <!-- BUTTONS -->
+          <button
+            type="button"
+            id="loginBtn"
+            class="primary-btn"
+            onclick="handleLogin()"
+          >
+            Login
+          </button>
+        </form>
+
+        <div class="divider">or</div>
+        <div class="social-section">
+
+  <p class="social-title">✨ or continue with</p>
+
+  <button class="social-auth-btn" onclick="googleLogin()">
+    <span class="auth-icon">🌐</span>
+    Continue with Google
+  </button>
+
+  <button class="social-auth-btn" onclick="facebookLogin()">
+    <span class="auth-icon">📘</span>
+    Continue with Facebook
+  </button>
+
 </div>
 
-<!-- 💎 CARD -->
-<div class="card">
-
-  <!-- LEFT FORM -->
-  <div class="form-section">
-    <h1>Step into Style Again</h1>
-
-    <form id="loginForm">
-
-      <input type="email" id="loginEmail" placeholder="Email" required>
-
-      <div class="password-box">
-        <input type="password" id="loginPassword" placeholder="Password" required>
-        <span onclick="toggleLoginPassword()">👁️</span>
+        <p>Don't have account? <a href="register.html">Sign up</a></p>
+        <p><a href="forgot.html">Forgot Password?</a></p>
       </div>
 
-      <button type="submit" class="primary-btn">Login</button>
+      <!-- RIGHT SIDE -->
+      <div class="visual-section">
+        <img
+          src="artificial-photography-vB5qtt8X4NA-unsplash (1).jpg"
+          alt="Textile"
+          class="visual-img"
+        />
+      </div>
+    </div>
 
-    </form>
-
-    <div class="divider">or</div>
-
-    <button class="social google" onclick="googleLogin()">Login with Google</button>
-    <button class="social facebook" onclick="facebookLogin()">Login with Facebook</button>
-
-    <p>Don't have account? <a href="register.html">Sign up</a></p>
-    <p><a href="forgot.html">Forgot Password?</a></p>
-  </div>
-
-  <!-- RIGHT SIDE -->
-  <div class="visual-section">
-  <img src="artificial-photography-vB5qtt8X4NA-unsplash (1).jpg" alt="Textile" class="visual-img">
-</div>
-
-</div>
-
-<script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

@@ -1,107 +1,124 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Telpha Vastra Register</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TelphaVastra Register</title>
 
-<link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins&family=Montserrat&display=swap" rel="stylesheet">
-</head>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins&family=Montserrat&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-<body>
-
-<!-- BACKGROUND -->
-<div class="bg-shapes">
-  <span></span><span></span><span></span>
-</div>
-
-<!-- CARD -->
-<div class="card">
-
-  <!-- FORM -->
-  <div class="form-section">
-    <h1>Start Your Style Journey!</h1>
-
-    <!-- STEP 1: REGISTER -->
-    <form id="registerForm">
-
-      <input type="text" id="name" placeholder="Full Name" required>
-
-      <input type="email" id="email" placeholder="Email" required>
-
-      <div class="phone-box">
-        <select id="code">
-          <option value="+91">+91</option>
-          <option value="+1">+1</option>
-          <option value="+44">+44</option>
-        </select>
-        <input type="tel" id="phone" placeholder="Phone Number" required>
-      </div>
-
-      <select id="country" required>
-        <option value="">Select Country</option>
-        <option>India</option>
-        <option>USA</option>
-        <option>UK</option>
-        <option>Canada</option>
-      </select>
-
-      <input type="date" id="dob" required>
-
-      <div class="password-box">
-        <input type="password" id="password" placeholder="Password" required>
-        <span onclick="togglePassword()">👁️</span>
-      </div>
-
-      <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
-
-      <button type="submit" class="primary-btn">Register</button>
-
-    </form>
-
-    <!-- STEP 2: OTP -->
-    <div id="otpSection" style="display:none; margin-top:20px;">
-
-      <h2>Verify Your Phone 🔐</h2>
-
-      <div id="recaptcha-container"></div>
-
-      <button class="primary-btn" onclick="sendOTP()">Send OTP</button>
-
-      <input type="text" id="otp" placeholder="Enter OTP">
-
-      <button class="primary-btn" onclick="verifyOTP()">Verify OTP</button>
-
+  <body>
+    <!-- Background Blobs -->
+    <div class="bg-shapes">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
 
-    <div class="divider">or</div>
+    <!-- CARD -->
+    <div class="card">
+      <!-- LEFT FORM -->
+      <div class="form-section">
+        <h1>Create Account</h1>
 
-    <button class="social google">Sign up with Google</button>
-    <button class="social facebook">Sign up with Facebook</button>
+        <form id="registerForm">
+          <input type="text" id="name" placeholder="Full Name" required />
 
-    <p>Already have account? <a href="login.html">Login</a></p>
+          <input type="email" id="email" placeholder="Email" required />
 
-  </div>
+          <div class="phone-box">
+            <select id="code">
+              <option value="+91">+91</option>
+              <option value="+1">+1</option>
+              <option value="+44">+44</option>
+            </select>
+            <input type="tel" id="phone" placeholder="Phone Number" required />
+            <!-- 🔐 OTP SECTION (HIDDEN FIRST) -->
+            <div id="otpSection" style="display: none"></div>
 
-  <!-- IMAGE -->
-  <div class="visual-section">
-    <img src="marcus-loke-xXJ6utyoSw0-unsplash.jpg" class="visual-img">
+            <input type="text" id="otp" placeholder="Enter OTP" />
+            <button
+              type="button"
+              class="glass-btn"
+              onclick="verifyRegisterOTP()"
+            >
+              Verify OTP
+            </button>
+          </div>
 
-    <div class="overlay-text">
-      <h2>Telpha Vastra</h2>
-      <p>Luxury Textile Experience</p>
+          <select id="country" required>
+            <option value="">Select Country</option>
+            <option>India</option>
+            <option>USA</option>
+            <option>UK</option>
+            <option>Canada</option>
+          </select>
+
+          <input type="date" id="dob" required />
+
+          <div class="password-box">
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              required
+            />
+            <span onclick="togglePassword()"></span>
+          </div>
+
+          <input
+            type="password"
+            id="confirmPassword"
+            placeholder="Confirm Password"
+            required
+          />
+
+          <button type="submit" class="primary-btn">Register</button>
+        </form>
+
+        <div class="divider">or</div>
+
+        <div class="social-section">
+          <p class="social-title">or continue with</p>
+
+          <button class="social-auth-btn google-auth" onclick="googleLogin()">
+            <span class="auth-icon">🌐</span>
+            <span>Continue with Google</span>
+          </button>
+
+          <button
+            class="social-auth-btn facebook-auth"
+            onclick="facebookLogin()"
+          >
+            <span class="auth-icon">📘</span>
+            <span>Continue with Facebook</span>
+          </button>
+        </div>
+
+        <p>Already have account? <a href="login.html">Login</a></p>
+      </div>
+
+      <!-- RIGHT IMAGE -->
+      <div class="visual-section">
+        <img src="marcus-loke-xXJ6utyoSw0-unsplash.jpg" class="visual-img" />
+        <div class="overlay-text">
+          <h2>TelphaVastra</h2>
+          <p>Luxury Textile Experience</p>
+        </div>
+      </div>
     </div>
-  </div>
 
-</div>
+    <!-- 🔥 FIREBASE SCRIPTS -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-
-<script src="script.js"></script>
-
-</body>
+  
+    <script src="script.js"></script>
+  </body>
 </html>

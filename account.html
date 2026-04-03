@@ -1,24 +1,247 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>My Account</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="account-container">
-  <h1 class="title">My Account</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Account</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="account">
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-top">
+          <h2 class="logo">TelphaVastra</h2>
+          <p class="logo-sub">Luxury Account Space</p>
+        </div>
 
-  <div class="profile">
-    <p><strong>Name:</strong> <span id="userName">userName</span></p>
-    <p><strong>Email:</strong> <span id="userEmail">userEmail</span></p>
-  </div>
+        <nav>
+          <ul>
+            <li class="active" onclick="openTab('profile', this)">
+              👤 <span>Profile</span>
+            </li>
+            <li onclick="openTab('orders', this)">📦 <span>My Orders</span></li>
+            <li onclick="openTab('wishlist', this)">
+              ❤️ <span>Wishlist</span>
+            </li>
+            <li onclick="openTab('address', this)">🏠 <span>Address</span></li>
+            <li onclick="openTab('rewards', this)">🎁 <span>Rewards</span></li>
+            <li onclick="openTab('settings', this)">
+              ⚙️ <span>Settings</span>
+            </li>
+            <li onclick="toggleDark()">🌙 <span>Mode</span></li>
+            <li onclick="logout()">🚪 <span>Logout</span></li>
+          </ul>
+        </nav>
+      </aside>
 
-  <button class="btn logout" onclick="logout()">Logout</button>
-</div>
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
 
+      <!-- CONTENT -->
+      <main class="content">
+        <!-- TOP BAR -->
+        <div class="topbar glass">
+          <div>
+            <h1>My Dashboard</h1>
+            <p>Manage your profile, orders, wishlist and rewards.</p>
+          </div>
+          <div class="topbar-badge">Premium Member ✨</div>
+        </div>
 
+        <!-- PROFILE -->
+        <section id="profile" class="tab active">
+          <div class="tab-box">
+            <div class="profile-hero glass">
+              <div class="profile-card glass">
+                <img id="avatar" src="" alt="👤" />
+                <div class="profile-info">
+                  <h2 id="userName">User Name</h2>
+                  <p id="userEmail">user@email.com</p>
+                  <span class="member-tag">Verified Account</span>
+                </div>
+              </div>
 
-<scrip src="script.js"></script>
-</body>
+              <div class="profile-actions">
+                <button class="glass-btn" onclick="openEdit()">
+                  Edit Profile
+                </button>
+                <button
+                  class="glass-btn soft-btn"
+                  onclick="
+                    openTab(
+                      'orders',
+                      document.querySelectorAll('.sidebar li')[1],
+                    )
+                  "
+                >
+                  View Orders
+                </button>
+              </div>
+            </div>
+
+            <div class="stats">
+              <div class="stat-box">
+                <span class="stat-icon">🛒</span>
+                <small>Orders</small>
+                <b>0</b>
+              </div>
+              <div class="stat-box">
+                <span class="stat-icon">❤️</span>
+                <small>Wishlist</small>
+                <b>5</b>
+              </div>
+              <div class="stat-box">
+                <span class="stat-icon">🎁</span>
+                <small>Rewards</small>
+                <b>120</b>
+              </div>
+            </div>
+
+            <div class="dashboard-grid">
+              <div class="mini-panel glass">
+                <h3>Account Overview</h3>
+                <p>
+                  Your profile is active and ready. Keep your details updated
+                  for faster checkout and personalized recommendations.
+                </p>
+              </div>
+
+              <div class="mini-panel glass">
+                <h3>Recent Activity</h3>
+                <p>Last login: Today</p>
+                <p>Saved items updated recently.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ORDERS -->
+        <section id="orders" class="tab">
+          <div class="tab-box">
+            <h2>Your Orders</h2>
+            <div class="cards">
+              <div class="account-card">
+                <div>
+                  <h3>Order #1</h3>
+                  <p>Luxury Fabric Set</p>
+                </div>
+                <span class="status delivered">Delivered ✅</span>
+              </div>
+
+              <div class="account-card">
+                <div>
+                  <h3>Order #2</h3>
+                  <p>Designer Textile Roll</p>
+                </div>
+                <span class="status shipped">Shipped 🚚</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- WISHLIST -->
+        <section id="wishlist" class="tab">
+          <div class="tab-box">
+            <h2>Wishlist</h2>
+            <div class="cards">
+              <div class="account-card">
+                <div>
+                  <h3>Product 1</h3>
+                  <p>Elegant blush collection</p>
+                </div>
+                <span class="status love">❤️ Saved</span>
+              </div>
+
+              <div class="account-card">
+                <div>
+                  <h3>Product 2</h3>
+                  <p>Premium handwoven fabric</p>
+                </div>
+                <span class="status love">❤️ Saved</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ADDRESS -->
+        <section id="address" class="tab">
+          <div class="tab-box">
+            <h2>Saved Addresses</h2>
+            <div class="cards">
+              <div class="account-card">
+                <div>
+                  <h3>Home</h3>
+                  <p>Default delivery address</p>
+                </div>
+                <span class="status default-tag">Default</span>
+              </div>
+            </div>
+            <button class="glass-btn">Add New Address</button>
+          </div>
+        </section>
+
+        <!-- REWARDS -->
+        <section id="rewards" class="tab">
+          <div class="tab-box">
+            <h2>Rewards</h2>
+            <div class="reward-box glass">
+              <div class="reward-header">
+                <h3>Reward Balance</h3>
+                <span>120 Points</span>
+              </div>
+              <div class="reward-bar">
+                <div class="reward-fill"></div>
+              </div>
+              <p>You are close to unlocking your next reward tier.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS -->
+        <section id="settings" class="tab">
+          <div class="tab-box">
+            <h2>Settings</h2>
+
+            <div class="settings-grid">
+              <div class="mini-panel glass">
+                <h3>Profile Settings</h3>
+                <p>Update your personal information anytime.</p>
+                <button class="glass-btn" onclick="openEdit()">
+                  Edit Profile
+                </button>
+              </div>
+
+              <div class="mini-panel glass">
+                <h3>Appearance</h3>
+                <p>Switch between light and dark modes.</p>
+                <button class="glass-btn soft-btn" onclick="toggleDark()">
+                  Toggle Mode
+                </button>
+              </div>
+            </div>
+
+            <div id="editModal" class="modal">
+              <div class="modal-content">
+                <button class="close-btn" onclick="closeEdit()">✕</button>
+                <h3>Edit Profile</h3>
+
+                <input type="text" id="editName" placeholder="Name" />
+                <input type="email" id="editEmail" placeholder="Email" />
+                <input type="text" id="editPhone" placeholder="Phone" />
+
+                <button class="primary-btn" onclick="saveProfile()">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script src="account.js"></script>
+  </body>
 </html>
