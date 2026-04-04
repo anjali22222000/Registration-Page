@@ -11,6 +11,8 @@
       href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Poppins&family=Montserrat&display=swap"
       rel="stylesheet"
     />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
   </head>
 
   <body>
@@ -21,7 +23,7 @@
     <div class="card">
       <!-- LEFT FORM -->
       <div class="form-section">
-        <h1>Welcome Back</h1>
+        <h1>Good to See You!</h1>
 
         <form id="loginForm">
           <!-- 🔘 SELECT LOGIN TYPE -->
@@ -100,14 +102,18 @@
   <p class="social-title">✨ or continue with</p>
 
   <button class="social-auth-btn" onclick="googleLogin()">
-    <span class="auth-icon">🌐</span>
-    Continue with Google
-  </button>
+          <i class="fa-brands fa-google"></i>
+          Continue with Google
+        </button>
 
-  <button class="social-auth-btn" onclick="facebookLogin()">
-    <span class="auth-icon">📘</span>
-    Continue with Facebook
-  </button>
+ <button class="social-auth-btn" onclick="facebookLogin()">
+          <i class="fa-brands fa-facebook-f"></i>
+          Continue with Facebook
+        </button>
+ <button class="social-auth-btn">
+          <i class="fa-brands fa-apple"></i>
+          Continue with Apple
+        </button>
 
 </div>
 
