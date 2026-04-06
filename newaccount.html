@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telpha Vastra — My Account</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+/* ══════════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════════ */
+:root {
+  --c-bg:        #f7f2eb;
+  --c-surface:   #fdfaf6;
+  --c-surface2:  #f9f4ed;
+  --c-border:    rgba(180,140,100,0.20);
+  --c-border-m:  rgba(180,140,100,0.35);
+  --c-gold:      #b8934a;
+  --c-gold-lt:   #d4af70;
+  --c-gold-pale: rgba(184,147,74,.10);
+  --c-brown:     #3d1a0e;
+  --c-accent:    #9b3a22;
+  --c-accent2:   #c0614a;
+  --c-muted:     #8a6a56;
+  --c-text:      #2a1208;
+  --c-sub:       #7a5e4e;
+  --c-success:   #2d8a5e;
+  --c-warn:      #b07830;
+
+  --nav-h: 64px;
+  --sidebar-w: 260px;
+
+  --r-sm:  8px;
+  --r-md:  12px;
+  --r-lg:  18px;
+  --r-xl:  22px;
+
+  --sh-card: 0 2px 4px rgba(61,26,14,.04), 0 8px 24px rgba(61,26,14,.07), 0 24px 48px rgba(61,26,14,.06);
+  --sh-sm:   0 1px 3px rgba(61,26,14,.06), 0 4px 12px rgba(61,26,14,.06);
+
+  --ease: cubic-bezier(.4,0,.2,1);
+  --t: .22s;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Jost', sans-serif;
+  background: var(--c-bg);
+  color: var(--c-text);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ══════════════════════════════════════════
+   BACKGROUND TEXTURE
+══════════════════════════════════════════ */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 55% 40% at 0% 0%,   rgba(196,149,106,.16) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 55% at 100% 100%, rgba(155,58,34,.10)  0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 80% 15%,  rgba(201,169,110,.08) 0%, transparent 55%);
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image:
+    linear-gradient(45deg,  rgba(184,147,74,.05) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(184,147,74,.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 30%, transparent 80%);
+}
+
+/* ══════════════════════════════════════════
+   TOP NAVBAR
+══════════════════════════════════════════ */
+.topnav {
+  position: sticky; top: 0; z-index: 200;
+  height: var(--nav-h);
+  background: rgba(253,250,246,.88);
+  backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
+  border-bottom: 1px solid var(--c-border);
+  box-shadow: 0 1px 0 rgba(184,147,74,.12), 0 4px 20px rgba(61,26,14,.06);
+  display: flex; align-items: center;
+  padding: 0 28px;
+  gap: 16px;
+}
+/* animated gold top line */
+.topnav::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--c-brown), var(--c-accent2), var(--c-gold-lt), var(--c-accent2), var(--c-brown));
+  background-size: 220% 100%;
+  animation: topBar 5s linear infinite;
+}
+@keyframes topBar { 0%{background-position:0% 50%} 100%{background-position:220% 50%} }
+
+.nav-brand {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none;
+}
+.nav-seal {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(145deg, #6b2010, #9b3a22 50%, #c0614a);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 10px rgba(91,30,16,.3), inset 0 1px 0 rgba(255,255,255,.18);
+  flex-shrink: 0;
+}
+.nav-seal span {
+  font-family: 'Playfair Display', serif; font-weight: 800;
+  font-size: 11px; color: #fff; letter-spacing: .04em;
+}
+.nav-wordmark {
+  font-family: 'Playfair Display', serif; font-weight: 700;
+  font-size: 1.15rem; color: var(--c-brown); line-height: 1; letter-spacing: .01em;
+}
+.nav-wordmark i { font-style: italic; color: var(--c-accent); }
+
+.nav-spacer { flex: 1; }
+
+.nav-pill {
+  display: flex; align-items: center; gap: 6px;
+  background: none; border: 1.5px solid var(--c-border-m); border-radius: 50px;
+  padding: 6px 14px 6px 8px; cursor: pointer;
+  font-family: 'Jost', sans-serif; font-size: .8rem; font-weight: 500;
+  color: var(--c-brown); transition: all var(--t) var(--ease);
+  text-decoration: none;
+}
+.nav-pill:hover { border-color: var(--c-accent); background: var(--c-gold-pale); color: var(--c-accent); }
+.nav-pill i { font-size: 1rem; }
+
+.nav-icon-btn {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c-muted); font-size: 1.05rem;
+  transition: all var(--t) var(--ease); position: relative;
+}
+.nav-icon-btn:hover { background: var(--c-gold-pale); color: var(--c-accent); }
+.nav-badge {
+  position: absolute; top: 4px; right: 4px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--c-accent);
+  border: 1.5px solid var(--c-surface);
+}
+
+/* ══════════════════════════════════════════
+   LAYOUT
+══════════════════════════════════════════ */
+.layout {
+  display: flex;
+  position: relative; z-index: 1;
+  min-height: calc(100vh - var(--nav-h));
+}
+
+/* ══════════════════════════════════════════
+   SIDEBAR
+══════════════════════════════════════════ */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  padding: 28px 20px;
+  position: sticky; top: var(--nav-h);
+  height: calc(100vh - var(--nav-h));
+  overflow-y: auto;
+  border-right: 1px solid var(--c-border);
+  background: rgba(253,250,246,.55);
+  backdrop-filter: blur(12px);
+  animation: sideIn .6s var(--ease) both;
+}
+@keyframes sideIn { from{opacity:0;transform:translateX(-16px)} to{opacity:1;transform:translateX(0)} }
+
+/* Profile mini card in sidebar */
+.sidebar-profile {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border-m);
+  border-radius: var(--r-lg);
+  padding: 18px 16px;
+  margin-bottom: 24px;
+  box-shadow: var(--sh-sm);
+  position: relative; overflow: hidden;
+  text-align: center;
+}
+.sidebar-profile::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--c-accent), var(--c-gold-lt), var(--c-accent));
+  background-size: 200% 100%;
+  animation: topBar 4s linear infinite;
+}
+.sp-avatar-wrap { position: relative; display: inline-block; margin-bottom: 10px; }
+.sp-avatar {
+  width: 62px; height: 62px; border-radius: 50%;
+  background: linear-gradient(145deg, #6b2010, #9b3a22 50%, #c0614a);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-weight: 700;
+  font-size: 1.3rem; color: #fff;
+  border: 2px solid rgba(255,255,255,.9);
+  box-shadow: 0 4px 16px rgba(91,30,16,.28);
+  position: relative; z-index: 1;
+}
+.sp-avatar-ring {
+  position: absolute; inset: -4px; border-radius: 50%;
+  background: conic-gradient(var(--c-gold-lt) 0deg, var(--c-accent2) 90deg, var(--c-gold) 180deg, var(--c-accent) 270deg, var(--c-gold-lt) 360deg);
+  opacity: .6; animation: ringSpinGold 8s linear infinite;
+}
+@keyframes ringSpinGold { to{transform:rotate(360deg)} }
+.sp-name {
+  font-family: 'Playfair Display', serif; font-weight: 700;
+  font-size: 1rem; color: var(--c-brown); line-height: 1.2; margin-bottom: 2px;
+}
+.sp-email { font-size: .73rem; color: var(--c-muted); margin-bottom: 10px; }
+.sp-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: linear-gradient(135deg, rgba(184,147,74,.18), rgba(212,175,112,.12));
+  border: 1px solid rgba(184,147,74,.3);
+  border-radius: 50px; padding: 3px 10px;
+  font-size: .68rem; font-weight: 600;
+  color: var(--c-gold); letter-spacing: .06em; text-transform: uppercase;
+}
+.sp-badge i { font-size: .75rem; }
+
+/* Sidebar nav */
+.snav-section { margin-bottom: 20px; }
+.snav-label {
+  font-size: .62rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--c-muted);
+  padding: 0 10px; margin-bottom: 6px;
+  opacity: .7;
+}
+.snav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: var(--r-sm);
+  cursor: pointer; font-size: .84rem; font-weight: 500;
+  color: var(--c-sub); text-decoration: none;
+  transition: all var(--t) var(--ease);
+  position: relative;
+  border: 1px solid transparent;
+}
+.snav-item i { font-size: 1rem; width: 18px; text-align: center; flex-shrink: 0; }
+.snav-item:hover {
+  background: var(--c-gold-pale);
+  color: var(--c-accent); border-color: rgba(184,147,74,.15);
+}
+.snav-item.active {
+  background: linear-gradient(135deg, rgba(155,58,34,.10), rgba(192,97,74,.06));
+  color: var(--c-accent); font-weight: 600;
+  border-color: rgba(155,58,34,.18);
+}
+.snav-item.active::before {
+  content: '';
+  position: absolute; left: 0; top: 20%; bottom: 20%;
+  width: 2.5px; border-radius: 0 2px 2px 0;
+  background: linear-gradient(180deg, var(--c-accent), var(--c-accent2));
+}
+.snav-badge {
+  margin-left: auto; background: var(--c-accent);
+  color: #fff; border-radius: 50px;
+  font-size: .62rem; font-weight: 700;
+  min-width: 18px; height: 18px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 5px;
+}
+.snav-divider { height: 1px; background: var(--c-border); margin: 8px 0 16px; }
+
+/* Logout btn in sidebar */
+.snav-logout {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: var(--r-sm);
+  cursor: pointer; font-size: .84rem; font-weight: 500;
+  color: #c0392b; background: none; border: none;
+  width: 100%; text-align: left;
+  transition: all var(--t) var(--ease);
+  font-family: 'Jost', sans-serif;
+}
+.snav-logout:hover { background: rgba(192,57,43,.08); }
+.snav-logout i { font-size: 1rem; width: 18px; text-align: center; }
+
+/* ══════════════════════════════════════════
+   MAIN CONTENT
+══════════════════════════════════════════ */
+.main {
+  flex: 1; padding: 32px 36px;
+  max-width: 900px;
+  animation: mainIn .7s .1s var(--ease) both;
+}
+@keyframes mainIn { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+/* page section visibility */
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── Section Header ── */
+.sec-header {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  margin-bottom: 24px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--c-border);
+  position: relative;
+}
+.sec-header::after {
+  content: '';
+  position: absolute; bottom: -1px; left: 0;
+  width: 48px; height: 2px;
+  background: linear-gradient(90deg, var(--c-accent), var(--c-gold));
+  border-radius: 2px;
+}
+.sec-title {
+  font-family: 'Playfair Display', serif; font-weight: 700;
+  font-size: 1.55rem; color: var(--c-brown); line-height: 1.2;
+}
+.sec-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: .95rem; color: var(--c-sub); margin-top: 3px;
+}
+
+/* ══════════════════════════════════════════
+   CARDS / PANELS
+══════════════════════════════════════════ */
+.panel {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-card);
+  overflow: hidden;
+  margin-bottom: 20px;
+  position: relative;
+}
+.panel-head {
+  padding: 18px 24px 14px;
+  border-bottom: 1px solid var(--c-border);
+  display: flex; align-items: center; gap: 12px;
+}
+.panel-head-icon {
+  width: 36px; height: 36px; border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.05rem;
+  background: linear-gradient(135deg, rgba(155,58,34,.12), rgba(192,97,74,.07));
+  color: var(--c-accent);
+  border: 1px solid rgba(155,58,34,.15);
+  flex-shrink: 0;
+}
+.panel-head-text {}
+.panel-title {
+  font-family: 'Playfair Display', serif; font-weight: 600;
+  font-size: 1rem; color: var(--c-brown); line-height: 1.2;
+}
+.panel-subtitle { font-size: .75rem; color: var(--c-muted); margin-top: 1px; }
+.panel-body { padding: 22px 24px; }
+
+/* ══════════════════════════════════════════
+   OVERVIEW STATS GRID
+══════════════════════════════════════════ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--r-lg);
+  padding: 18px 16px;
+  box-shadow: var(--sh-sm);
+  position: relative; overflow: hidden;
+  transition: transform var(--t) var(--ease), box-shadow var(--t) var(--ease);
+  cursor: default;
+}
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(61,26,14,.10); }
+.stat-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+}
+.stat-card.s1::before { background: linear-gradient(90deg, var(--c-accent), var(--c-accent2)); }
+.stat-card.s2::before { background: linear-gradient(90deg, var(--c-gold), var(--c-gold-lt)); }
+.stat-card.s3::before { background: linear-gradient(90deg, #2d8a5e, #5ab58a); }
+.stat-card.s4::before { background: linear-gradient(90deg, #7c4dcc, #b07fec); }
+.stat-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; margin-bottom: 10px;
+}
+.s1 .stat-icon { background: rgba(155,58,34,.10); color: var(--c-accent); }
+.s2 .stat-icon { background: rgba(184,147,74,.12); color: var(--c-gold); }
+.s3 .stat-icon { background: rgba(45,138,94,.10);  color: #2d8a5e; }
+.s4 .stat-icon { background: rgba(124,77,204,.10); color: #7c4dcc; }
+.stat-num {
+  font-family: 'Playfair Display', serif; font-weight: 700;
+  font-size: 1.6rem; color: var(--c-brown); line-height: 1;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: .72rem; color: var(--c-muted); font-weight: 500; letter-spacing: .03em; }
+
+/* ══════════════════════════════════════════
+   PROFILE FORM
+══════════════════════════════════════════ */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-grid.full { grid-template-columns: 1fr; }
+.field-wrap { display: flex; flex-direction: column; gap: 6px; }
+.field-wrap.span2 { grid-column: 1/-1; }
+.field-label {
+  font-size: .72rem; font-weight: 600; letter-spacing: .07em;
+  text-transform: uppercase; color: var(--c-muted);
+}
+.field-input {
+  padding: 12px 14px;
+  border: 1.5px solid var(--c-border-m);
+  border-radius: var(--r-md);
+  background: rgba(253,250,246,.6);
+  font-family: 'Jost', sans-serif; font-size: .9rem;
+  color: var(--c-text); outline: none;
+  transition: border-color var(--t), box-shadow var(--t), background var(--t);
+  appearance: none;
+}
+.field-input:focus {
+  border-color: var(--c-accent);
+  background: var(--c-surface);
+  box-shadow: 0 0 0 3px rgba(155,58,34,.09);
+}
+.field-input::placeholder { color: rgba(122,94,78,.45); }
+select.field-input { cursor: pointer; }
+
+/* profile avatar section */
+.profile-avatar-row {
+  display: flex; align-items: center; gap: 20px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--c-border);
+  margin-bottom: 0;
+}
+.pa-wrap { position: relative; display: inline-block; }
+.pa-avatar {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(145deg, #6b2010, #9b3a22 50%, #c0614a);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-weight: 700;
+  font-size: 1.5rem; color: #fff;
+  border: 3px solid rgba(255,255,255,.9);
+  box-shadow: 0 4px 16px rgba(91,30,16,.28);
+}
+.pa-edit {
+  position: absolute; bottom: 0; right: 0;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--c-accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .62rem; cursor: pointer;
+  border: 2px solid #fff;
+  transition: background var(--t) var(--ease);
+}
+.pa-edit:hover { background: var(--c-brown); }
+.pa-info {}
+.pa-name {
+  font-family: 'Playfair Display', serif; font-weight: 700;
+  font-size: 1.15rem; color: var(--c-brown);
+}
+.pa-since { font-size: .75rem; color: var(--c-muted); margin-top: 3px; }
+.pa-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 8px;
+  background: rgba(45,138,94,.10); border: 1px solid rgba(45,138,94,.22);
+  color: #2d8a5e; border-radius: 50px;
+  font-size: .68rem; font-weight: 600; letter-spacing: .05em;
+  padding: 3px 10px; text-transform: uppercase;
+}
+.pa-status i { font-size: .75rem; }
+
+/* ══════════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════════ */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px; border-radius: var(--r-md);
+  font-family: 'Jost', sans-serif; font-size: .8rem;
+  font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  cursor: pointer; border: none;
+  transition: all var(--t) var(--ease);
+  position: relative; overflow: hidden;
+}
+.btn::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg,transparent,rgba(255,255,255,.22),transparent);
+  transform: translateX(-110%); transition: transform .5s ease;
+}
+.btn:hover::after { transform: translateX(110%); }
+
+.btn-primary {
+  background: linear-gradient(135deg,#5b1e10,#9b3a22 55%,#c0614a);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(91,30,16,.25), 0 6px 18px rgba(91,30,16,.18), inset 0 1px 0 rgba(255,255,255,.15);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(91,30,16,.3), 0 10px 24px rgba(91,30,16,.18); }
+.btn-primary::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(170deg,rgba(255,255,255,.2) 0%,transparent 60%);
+  pointer-events: none;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--c-muted);
+  border: 1.5px solid var(--c-border-m);
+}
+.btn-ghost:hover { border-color: var(--c-accent); color: var(--c-accent); background: var(--c-gold-pale); }
+
+.btn-danger {
+  background: rgba(192,57,43,.08);
+  color: #c0392b;
+  border: 1.5px solid rgba(192,57,43,.22);
+}
+.btn-danger:hover { background: rgba(192,57,43,.14); border-color: rgba(192,57,43,.4); }
+
+.btn-row { display: flex; align-items: center; gap: 10px; margin-top: 20px; }
+
+/* ══════════════════════════════════════════
+   ORDER LIST
+══════════════════════════════════════════ */
+.order-list { display: flex; flex-direction: column; gap: 12px; }
+.order-card {
+  border: 1px solid var(--c-border-m);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  transition: box-shadow var(--t) var(--ease);
+}
+.order-card:hover { box-shadow: var(--sh-sm); }
+.order-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px;
+  background: rgba(253,250,246,.7);
+  border-bottom: 1px solid var(--c-border);
+  flex-wrap: wrap; gap: 8px;
+}
+.order-id { font-weight: 700; font-size: .88rem; color: var(--c-brown); }
+.order-date { font-size: .74rem; color: var(--c-muted); }
+.order-status {
+  display: inline-flex; align-items: center; gap: 5px;
+  border-radius: 50px; padding: 4px 12px;
+  font-size: .68rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+}
+.order-status.delivered  { background:rgba(45,138,94,.10); border:1px solid rgba(45,138,94,.25); color:#2d8a5e; }
+.order-status.shipped    { background:rgba(30,130,200,.10); border:1px solid rgba(30,130,200,.25); color:#1e82c8; }
+.order-status.processing { background:rgba(176,120,48,.10); border:1px solid rgba(176,120,48,.25); color:#b07830; }
+.order-status.cancelled  { background:rgba(192,57,43,.10);  border:1px solid rgba(192,57,43,.25);  color:#c0392b; }
+.order-items { padding: 14px 18px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.order-thumb {
+  width: 52px; height: 52px; border-radius: var(--r-sm);
+  border: 1px solid var(--c-border-m); overflow: hidden;
+  background: linear-gradient(135deg, #f0e8dc, #e8d8c4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem; flex-shrink: 0;
+}
+.order-detail { flex: 1; min-width: 140px; }
+.order-pname { font-weight: 600; font-size: .88rem; color: var(--c-brown); }
+.order-pmeta { font-size: .74rem; color: var(--c-muted); margin-top: 2px; }
+.order-price { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; color: var(--c-brown); }
+.order-actions { padding: 12px 18px; border-top: 1px solid var(--c-border); display: flex; gap: 8px; }
+
+/* ══════════════════════════════════════════
+   WISHLIST
+══════════════════════════════════════════ */
+.wishlist-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.wish-card {
+  border: 1px solid var(--c-border-m);
+  border-radius: var(--r-lg); overflow: hidden;
+  background: var(--c-surface);
+  transition: all var(--t) var(--ease);
+  cursor: pointer;
+}
+.wish-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(61,26,14,.10); }
+.wish-img {
+  height: 130px;
+  background: linear-gradient(135deg, #f0e8dc, #e0cdb8);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 2.5rem; position: relative;
+}
+.wish-remove {
+  position: absolute; top: 8px; right: 8px;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(255,255,255,.85); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--c-accent); font-size: .8rem;
+  transition: background var(--t); backdrop-filter: blur(6px);
+}
+.wish-remove:hover { background: rgba(192,57,43,.12); }
+.wish-info { padding: 12px; }
+.wish-name { font-weight: 600; font-size: .84rem; color: var(--c-brown); margin-bottom: 4px; line-height: 1.3; }
+.wish-price { font-family: 'Playfair Display', serif; font-size: .95rem; color: var(--c-accent); font-weight: 700; }
+.wish-add { width: 100%; padding: 8px; border: none; cursor: pointer; font-family: 'Jost', sans-serif; font-size: .74rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--c-accent); background: rgba(155,58,34,.07); transition: background var(--t); border-top: 1px solid var(--c-border); }
+.wish-add:hover { background: rgba(155,58,34,.13); }
+
+/* ══════════════════════════════════════════
+   ADDRESS CARDS
+══════════════════════════════════════════ */
+.addr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.addr-card {
+  border: 1.5px solid var(--c-border-m);
+  border-radius: var(--r-lg); padding: 18px;
+  position: relative; background: var(--c-surface);
+  transition: all var(--t) var(--ease);
+}
+.addr-card:hover { box-shadow: var(--sh-sm); }
+.addr-card.default { border-color: rgba(155,58,34,.3); }
+.addr-default-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  position: absolute; top: 14px; right: 14px;
+  background: var(--c-gold-pale); border: 1px solid rgba(184,147,74,.3);
+  color: var(--c-gold); border-radius: 50px;
+  font-size: .62rem; font-weight: 700; letter-spacing: .06em;
+  padding: 2px 8px; text-transform: uppercase;
+}
+.addr-type { font-weight: 700; font-size: .8rem; color: var(--c-brown); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.addr-type i { color: var(--c-accent); }
+.addr-name { font-weight: 600; font-size: .9rem; color: var(--c-brown); margin-bottom: 4px; }
+.addr-text { font-size: .8rem; color: var(--c-muted); line-height: 1.6; margin-bottom: 12px; }
+.addr-actions { display: flex; gap: 8px; }
+.addr-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: var(--r-sm);
+  font-family: 'Jost', sans-serif; font-size: .72rem; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase; cursor: pointer; border: none;
+  transition: all var(--t) var(--ease);
+}
+.addr-btn.edit { background: var(--c-gold-pale); color: var(--c-gold); border: 1px solid rgba(184,147,74,.25); }
+.addr-btn.edit:hover { background: rgba(184,147,74,.18); }
+.addr-btn.del  { background: rgba(192,57,43,.07); color: #c0392b; border: 1px solid rgba(192,57,43,.18); }
+.addr-btn.del:hover  { background: rgba(192,57,43,.13); }
+.addr-add {
+  border: 2px dashed var(--c-border-m);
+  border-radius: var(--r-lg); padding: 18px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; cursor: pointer; min-height: 140px;
+  transition: all var(--t) var(--ease);
+  color: var(--c-muted);
+}
+.addr-add:hover { border-color: var(--c-accent); color: var(--c-accent); background: var(--c-gold-pale); }
+.addr-add i { font-size: 1.6rem; }
+.addr-add span { font-size: .8rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
+
+/* ══════════════════════════════════════════
+   SECURITY / TOGGLE ROWS
+══════════════════════════════════════════ */
+.sec-row {
+  display: flex; align-items: center;
+  padding: 16px 0; border-bottom: 1px solid var(--c-border);
+  gap: 14px;
+}
+.sec-row:last-child { border-bottom: none; }
+.sec-row-icon {
+  width: 40px; height: 40px; border-radius: var(--r-sm); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+}
+.sec-row-icon.green { background:rgba(45,138,94,.10); color:#2d8a5e; }
+.sec-row-icon.amber { background:rgba(176,120,48,.10); color:#b07830; }
+.sec-row-icon.blue  { background:rgba(30,130,200,.10); color:#1e82c8; }
+.sec-row-icon.red   { background:rgba(192,57,43,.08);  color:#c0392b; }
+.sec-row-body { flex: 1; }
+.sec-row-title { font-weight: 600; font-size: .88rem; color: var(--c-brown); }
+.sec-row-desc  { font-size: .74rem; color: var(--c-muted); margin-top: 2px; line-height: 1.4; }
+/* toggle switch */
+.toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+.toggle input { opacity: 0; width: 0; height: 0; position: absolute; }
+.toggle-track {
+  position: absolute; inset: 0; border-radius: 12px;
+  background: rgba(180,140,100,.3); cursor: pointer;
+  transition: background var(--t) var(--ease);
+}
+.toggle input:checked + .toggle-track { background: linear-gradient(135deg,var(--c-accent),var(--c-accent2)); }
+.toggle-track::after {
+  content: '';
+  position: absolute; top: 3px; left: 3px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  transition: transform var(--t) var(--ease);
+}
+.toggle input:checked + .toggle-track::after { transform: translateX(20px); }
+
+/* ══════════════════════════════════════════
+   LOYALTY / REWARDS
+══════════════════════════════════════════ */
+.loyalty-card {
+  background: linear-gradient(135deg, #5b1e10 0%, #9b3a22 50%, #8b5e3c 100%);
+  border-radius: var(--r-xl); padding: 28px 28px 24px;
+  color: #fff; position: relative; overflow: hidden; margin-bottom: 20px;
+}
+.loyalty-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.loyalty-tier { font-size: .72rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; opacity: .7; margin-bottom: 4px; }
+.loyalty-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.4rem; margin-bottom: 18px; }
+.loyalty-pts { display: flex; align-items: flex-end; gap: 6px; margin-bottom: 16px; }
+.loyalty-pts-num { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 2.4rem; line-height: 1; }
+.loyalty-pts-label { font-size: .78rem; opacity: .7; margin-bottom: 6px; }
+.loyalty-bar-wrap { background: rgba(255,255,255,.15); border-radius: 4px; height: 6px; margin-bottom: 8px; overflow: hidden; }
+.loyalty-bar { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--c-gold-lt), var(--c-gold)); width: 65%; }
+.loyalty-bar-text { font-size: .72rem; opacity: .65; }
+.loyalty-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.loyalty-badge {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2);
+  border-radius: 50px; padding: 4px 12px;
+  font-size: .7rem; font-weight: 600; letter-spacing: .04em;
+}
+
+/* ══════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════ */
+#toast {
+  position: fixed; bottom: 28px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: linear-gradient(135deg, #3d1a0e, #5b1e10);
+  color: #fff; padding: 11px 22px; border-radius: 50px;
+  font-size: .8rem; font-weight: 500;
+  box-shadow: 0 8px 28px rgba(61,26,14,.28);
+  transition: transform .38s cubic-bezier(.16,1,.3,1);
+  z-index: 9999; white-space: nowrap; pointer-events: none;
+}
+#toast.on { transform: translateX(-50%) translateY(0); }
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { padding: 24px 20px; max-width: 100%; }
+  .stats-grid { grid-template-columns: repeat(2,1fr); }
+  .wishlist-grid { grid-template-columns: repeat(2,1fr); }
+  .addr-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .wishlist-grid { grid-template-columns: 1fr 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .topnav { padding: 0 16px; }
+  .main { padding: 20px 16px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="#" class="nav-brand">
+    <div class="nav-seal"><span>TV</span></div>
+    <div class="nav-wordmark">Telpha <i>Vastra</i></div>
+  </a>
+
+  <div class="nav-spacer"></div>
+
+  <button class="nav-icon-btn" title="Notifications" onclick="toast('No new notifications')">
+    <i class="bi bi-bell"></i>
+    <div class="nav-badge"></div>
+  </button>
+  <button class="nav-icon-btn" title="Cart" onclick="toast('Your cart has 3 items')">
+    <i class="bi bi-bag"></i>
+  </button>
+  <a href="telpha_vastra_login.html" class="nav-pill">
+    <i class="bi bi-grid-1x2"></i> Browse Collection
+  </a>
+</nav>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-profile">
+      <div class="sp-avatar-wrap">
+        <div class="sp-avatar-ring"></div>
+        <div class="sp-avatar">PS</div>
+      </div>
+      <div class="sp-name">Priya Sharma</div>
+      <div class="sp-email">priya.sharma@gmail.com</div>
+      <div class="sp-badge"><i class="bi bi-star-fill"></i> Gold Member</div>
+    </div>
+
+    <div class="snav-section">
+      <div class="snav-label">Overview</div>
+      <a class="snav-item active" onclick="showSection('overview',this)">
+        <i class="bi bi-grid-1x2"></i> Dashboard
+      </a>
+      <a class="snav-item" onclick="showSection('profile',this)">
+        <i class="bi bi-person-circle"></i> My Profile
+      </a>
+    </div>
+
+    <div class="snav-section">
+      <div class="snav-label">Shopping</div>
+      <a class="snav-item" onclick="showSection('orders',this)">
+        <i class="bi bi-bag-check"></i> My Orders
+        <span class="snav-badge">3</span>
+      </a>
+      <a class="snav-item" onclick="showSection('wishlist',this)">
+        <i class="bi bi-heart"></i> Wishlist
+        <span class="snav-badge">6</span>
+      </a>
+      <a class="snav-item" onclick="showSection('addresses',this)">
+        <i class="bi bi-geo-alt"></i> Addresses
+      </a>
+    </div>
+
+    <div class="snav-section">
+      <div class="snav-label">Perks</div>
+      <a class="snav-item" onclick="showSection('rewards',this)">
+        <i class="bi bi-award"></i> Rewards
+      </a>
+      <a class="snav-item" onclick="showSection('coupons',this)">
+        <i class="bi bi-ticket-perforated"></i> Coupons
+        <span class="snav-badge">2</span>
+      </a>
+    </div>
+
+    <div class="snav-section">
+      <div class="snav-label">Account</div>
+      <a class="snav-item" onclick="showSection('security',this)">
+        <i class="bi bi-shield-lock"></i> Security
+      </a>
+      <a class="snav-item" onclick="showSection('notifications-settings',this)">
+        <i class="bi bi-bell"></i> Notifications
+      </a>
+    </div>
+
+    <div class="snav-divider"></div>
+    <button class="snav-logout" onclick="toast('Logging out…')">
+      <i class="bi bi-box-arrow-left"></i> Log Out
+    </button>
+  </aside>
+
+  <main class="main">
+
+    <div class="section active" id="overview">
+      <div class="sec-header">
+        <div>
+          <div class="sec-title">Good morning, Priya ✨</div>
+          <div class="sec-sub">Here's a snapshot of your Telpha Vastra journey</div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card s1">
+          <div class="stat-icon"><i class="bi bi-bag-check"></i></div>
+          <div class="stat-num">12</div>
+          <div class="stat-label">Total Orders</div>
+        </div>
+        <div class="stat-card s2">
+          <div class="stat-icon"><i class="bi bi-award"></i></div>
+          <div class="stat-num">2,450</div>
+          <div class="stat-label">Reward Points</div>
+        </div>
+        <div class="stat-card s3">
+          <div class="stat-icon"><i class="bi bi-heart"></i></div>
+          <div class="stat-num">6</div>
+          <div class="stat-label">Wishlist Items</div>
+        </div>
+        <div class="stat-card s4">
+          <div class="stat-icon"><i class="bi bi-ticket-perforated"></i></div>
+          <div class="stat-num">2</div>
+          <div class="stat-label">Active Coupons</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-head-icon"><i class="bi bi-bag-check"></i></div>
+          <div class="panel-head-text">
+            <div class="panel-title">Recent Order</div>
+            <div class="panel-subtitle">Your latest purchase from Telpha Vastra</div>
+          </div>
+        </div>
+        <div class="panel-body" style="padding:0;">
+          <div class="order-top">
+            <div>
+              <div class="order-id">#TV-20264892</div>
+              <div class="order-date">Placed on 1 April 2026</div>
+            </div>
+            <span class="order-status shipped"><i class="bi bi-truck"></i> Shipped</span>
+          </div>
+          <div class="order-items">
+            <div class="order-thumb">🥻</div>
+            <div class="order-detail">
+              <div class="order-pname">Kanjivaram Silk Saree</div>
+              <div class="order-pmeta">Size: Free · Colour: Royal Blue · Qty: 1</div>
+            </div>
+            <div class="order-price">₹8,499</div>
+          </div>
+          <div class="order-actions">
+            <button class="btn btn-ghost" onclick="showSection('orders',null)"><i class="bi bi-eye"></i> Track Order</button>
+            <button class="btn btn-ghost" onclick="toast('Invoice downloading…')"><i class="bi bi-download"></i> Invoice</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="loyalty-card">
+        <div class="loyalty-tier">Gold Tier · Member since 2024</div>
+        <div class="loyalty-name">Priya Sharma</div>
+        <div class="loyalty-pts">
+          <div class="loyalty-pts-num">2,450</div>
+          <div class="loyalty-pts-label">reward points</div>
+        </div>
+        <div class="loyalty-bar-wrap"><div class="loyalty-bar"></div></div>
+        <div class="loyalty-bar-text">1,550 pts to Platinum tier</div>
+        <div class="loyalty-badges">
+          <div class="loyalty-badge"><i class="bi bi-star-fill"></i> Gold Member</div>
+          <div class="loyalty-badge"><i class="bi bi-lightning-charge"></i> Flash Buyer</div>
+          <div class="loyalty-badge"><i class="bi bi-heart-fill"></i> Style Icon</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="profile">
+      <div class="sec-header">
+        <div>
+          <div class="sec-title">My Profile</div>
+          <div class="sec-sub">Manage your personal details and preferences</div>
+        </div>
+        <button class="btn btn-primary" onclick="toast('Profile saved successfully ✓')"><i class="bi bi-check-lg"></i> Save Changes</button>
+      </div>
+
+      <div class="panel">
+        <div class="profile-avatar-row">
+          <div class="pa-wrap">
+            <div class="pa-avatar">PS</div>
+            <div class="pa-edit" onclick="toast('Upload photo feature coming soon')"><i class="bi bi-camera-fill"></i></div>
+          </div>
+          <div class="pa-info">
+            <div class="pa-name">Priya Sharma</div>
+            <div class="pa-since">Member since January 2024</div>
+            <div class="pa-status"><i class="bi bi-patch-check-fill"></i> Verified Account</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-grid">
+            <div class="field-wrap">
+              <label class="field-label">First Name</label>
+              <input class="field-input" type="text" value="Priya" placeholder="First Name">
+            </div>
+            <div class="field-wrap">
+              <label class="field-label">Last Name</label>
+              <input class="field-input" type="text" value="Sharma" placeholder="Last Name">
+            </div>
+            <div class="field-wrap">
+              <label class="field-label">Email Address</label>
+              <input class="field-input" type="email" value="priya.sharma@gmail.com" placeholder="Email">
+            </div>
+            <div class="field-wrap">
+              <label class="field-label">Phone Number</label>
+              <input class="field-input" type="tel" value="+91 98765 43210" placeholder="Phone">
+            </div>
+            <div class="field-wrap">
+              <label class="field-label">Date of Birth</label>
+              <input class="field-input" type="date" value="1995-06-15">
+            </div>
+            <div class="field-wrap">
+              <label class="field-label">Gender</label>
+              <select class="field-input">
+                <option>Female</option><option>Male</option><option>Non-binary</option><option>Prefer not to say</option>
+              </select>
+            </div>
+            <div class="field-wrap span2">
+              <label class="field-label">Style Preferences</label>
+              <select class="field-input">
+                <option>Traditional — Sarees, Lehengas, Kurtas</option>
+                <option>Fusion — Blend of traditional &amp; western</option>
+                <option>Contemporary Western</option>
+              </select>
+            </div>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" onclick="toast('Profile saved successfully ✓')"><i class="bi bi-check-lg"></i> Save Changes</button>
+            <button class="btn btn-ghost" onclick="toast('Changes discarded')">Discard</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="orders">
+      <div class="sec-header">
+        <div>
+          <div class="sec-title">My Orders</div>
+          <div class="sec-sub">Track, manage and review your purchases</div>
+        </div>
+      </div>
+
+      <div class="order-list">
+        <div class="order-card">
+          <div class="order-top">
+            <div><div class="order-id">#TV-20264892</div><div class="order-date">1 April 2026</div></div>
+            <span class="order-status shipped"><i class="bi bi-truck"></i> Shipped</span>
+          </div>
+          <div class="order-items">
+            <div class="order-thumb">🥻</div>
+            <div class="order-detail">
+              <div class="order-pname">Kanjivaram Silk Saree</div>
+              <div class="order-pmeta">Royal Blue · Free Size · Qty: 1</div>
+            </div>
+            <div class="order-price">₹8,499</div>
+          </div>
+          <div class="order-actions">
+            <button class="btn btn-ghost" onclick="toast('Tracking order…')"><i class="bi bi-geo-alt"></i> Track</button>
+            <button class="btn btn-ghost" onclick="toast('Invoice downloading…')"><i class="bi bi-download"></i> Invoice</button>
+          </div>
+        </div>
+        <div class="order-card">
+          <div class="order-top">
+            <div><div class="order-id">#TV-20263751</div><div class="order-date">18 March 2026</div></div>
+            <span class="order-status delivered"><i class="bi bi-check-circle"></i> Delivered</span>
+          </div>
+          <div class="order-items">
+            <div class="order-thumb">👘</div>
+            <div class="order-detail">
+              <div class="order-pname">Anarkali Kurta Set</div>
+              <div class="order-pmeta">Peacock Green · Size M · Qty: 1</div>
+            </div>
+            <div class="order-price">₹3,299</div>
+          </div>
+          <div class="order-actions">
+            <button class="btn btn-ghost" onclick="toast('Review submitted ✓')"><i class="bi bi-star"></i> Review</button>
+            <button class="btn btn-ghost" onclick="toast('Reorder placed ✓')"><i class="bi bi-arrow-clockwise"></i> Reorder</button>
+            <button class="btn btn-ghost" onclick="toast('Invoice downloading…')"><i class="bi bi-download"></i> Invoice</button>
+          </div>
+        </div>
+        <div class="order-card">
+          <div class="order-top">
+            <div><div class="order-id">#TV-20262204</div><div class="order-date">5 February 2026</div></div>
+            <span class="order-status delivered"><i class="bi bi-check-circle"></i> Delivered</span>
+          </div>
+          <div class="order-items">
+            <div class="order-thumb">🧣</div>
+            <div class="order-detail">
+              <div class="order-pname">Banarasi Dupatta</div>
+              <div class="order-pmeta">Crimson Red · Free Size · Qty: 2</div>
+            </div>
+            <div class="order-price">₹1,850</div>
+          </div>
+          <div class="order-actions">
+            <button class="btn btn-ghost" onclick="toast('Review submitted ✓')"><i class="bi bi-star"></i> Review</button>
+            <button class="btn btn-ghost" onclick="toast('Reorder placed ✓')"><i class="bi bi-arrow-clockwise"></i> Reorder</button>
+            <button class="btn btn-ghost" onclick="toast('Invoice downloading…')"><i class="bi bi-download"></i> Invoice</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="wishlist">
+      <div class="sec-header">
+        <div>
+          <div class="sec-title">Wishlist</div>
+          <div class="sec-sub">Items you've saved for later</div>
+        </div>
+        <button class="btn btn-primary" onclick="toast('All items added to cart ✓')"><i class="bi bi-bag-plus"></i> Add All to Cart</button>
+      </div>
+
+      <div class="wishlist-grid">
+        <div class="wish-card"><div class="wish-img">🥻<button class="wish-remove" onclick="toast('Removed from wishlist')"><i class="bi bi-x"></i></button></div><div class="wish-info"><div class="wish-name">Chanderi Silk Saree</div><div class="wish-price">₹6,999</div></div><button class="wish-add" onclick="toast('Added to cart ✓')">Add to Cart</button></div>
+        <div class="wish-card"><div class="wish-img">👘<button class="wish-remove" onclick="toast('Removed from wishlist')"><i class="bi bi-x"></i></button></div><div class="wish-info"><div class="wish-name">Embroidered Lehenga Choli</div><div class="wish-price">₹14,500</div></div><button class="wish-add" onclick="toast('Added to cart ✓')">Add to Cart</button></div>
+        <div class="wish-card"><div class="wish-img">🌺<button class="wish-remove" onclick="toast('Removed from wishlist')"><i class="bi bi-x"></i></button></div><div class="wish-info"><div class="wish-name">Floral Kurti Set</div><div class="wish-price">₹2,199</div></div><button class="wish-add" onclick="toast('Added to cart ✓')">Add to Cart</button></div>
+        <div class="wish-card"><div class="wish-img">🧥<button class="wish-remove" onclick="toast('Removed from wishlist')"><i class="bi bi-x"></i></button></div><div class="wish-info"><div class="wish-name">Velvet Sherwani</div><div class="wish-price">₹9,750</div></div><button class="wish-add" onclick="toast('Added to cart ✓')">Add to Cart</button></div>
+        <div class="wish-card"><div class="wish-img">🪭<button class="wish-remove" onclick="toast('Removed from wishlist')"><i class="bi bi-x"></i></button></div><div class="wish-info"><div class="wish-name">Georgette Palazzo Set</div><div class="wish-price">₹3,499</div></div><button class="wish-add" onclick="toast('Added to cart ✓')">Add to Cart</button></div>
+        <div class="wish-card"><div class="wish-img">🌼<button class="wish-remove" onclick="toast('Removed from wishlist')"><i class="bi bi-x"></i></button></div><div class="wish-info"><div class="wish-name">Bandhani Dupatta</div><div class="wish-price">₹899</div></div><button class="wish-add" onclick="toast('Added to cart ✓')">Add to Cart</button></div>
+      </div>
+    </div>
+
+    <div class="section" id="addresses">
+      <div class="sec-header">
+        <div>
+          <div class="sec-title">Saved Addresses</div>
+          <div class="sec-sub">Manage your delivery locations</div>
+        </div>
+        <button class="btn btn-primary" onclick="toast('Address form opening…')"><i class="bi bi-plus-lg"></i> Add Address</button>
+      </div>
+
+      <div class="addr-grid">
+        <div class="addr-card default">
+          <div class="addr-default-tag"><i class="bi bi-star-fill"></i> Default</div>
+          <div class="addr-type"><i class="bi bi-house-fill"></i> Home</div>
+          <div class="addr-name">Priya Sharma</div>
+          <div class="addr-text">42, Shastri Nagar, Near HDFC Bank<br>Pune, Maharashtra — 411005<br>+91 98765 43210</div>
+          <div class="addr-actions">
+            <button class="addr-btn edit" onclick="toast('Edit address…')"><i class="bi bi-pencil"></i> Edit</button>
+            <button class="addr-btn del"  onclick="toast('Cannot delete default address')"><i class="bi bi-trash"></i> Delete</button>
+          </div>
+        </div>
+        <div class="addr-card">
+          <div class="addr-type"><i class="bi bi-briefcase-fill"></i> Work</div>
+          <div class="addr-name">Priya Sharma</div>
+          <div class="addr-text">TelphaTech LLP, 3rd Floor<br>Baner Road, Pune — 411045<br>+91 98765 43210</div>
+          <div class="addr-actions">
+            <button class="addr-btn edit" onclick="toast('Edit address…')"><i class="bi bi-pencil"></i> Edit</button>
+            <button class="addr-btn del"  onclick="toast('Address deleted')"><i class="bi bi-trash"></i> Delete</button>
+          </div>
+        </div>
+        <div class="addr-add" onclick="toast('Address form opening…')">
+          <i class="bi bi-plus-circle"></i>
+          <span>Add New Address</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="rewards">
+      <div class="sec-header">
+        <div>
+          <div class="sec-title">Rewards &amp; Loyalty</div>
+          <div class="sec-sub">Your exclusive perks as a Telpha Vastra member</div>
+        </div>
+      </div>
+
+      <div class="loyalty-card">
+        <div class="loyalty-tier">Gold Tier · Member since January 2024</div>
+        <div class="loyalty-name">Priya Sharma</div>
+        <div class="loyalty-pts">
+          <div class="loyalty-pts-num">2,450</div>
+          <div class="loyalty-pts-label">reward points</div>
+        </div>
+        <div class="loyalty-bar-wrap"><div class="loyalty-bar"></div></div>
+        <div class="loyalty-bar-text">Earn 1,550 more points to unlock Platinum</div>
+        <div class="loyalty-badges">
+          <div class="loyalty-badge"><i class="bi bi-star-fill"></i> Gold Member</div>
+          <div class="loyalty-badge"><i class="bi bi-lightning-charge"></i> Flash Buyer</div>
+          <div class="loyalty-badge"><i class="bi bi-heart-fill"></i> Style Icon</div>
+          <div class="loyalty-badge"><i class="bi bi-gift-fill"></i> Festival Spender</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-head-icon"><i class="bi bi-clock-history"></i></div>
+          <div class="panel-head-text">
+            <div class="panel-title">Points History</div>
+            <div class="panel-subtitle">Recent earning &amp; redemption activity</div>
+          </div>
+        </div>
+        <div class="panel-body" style="padding:0;">
+          <div style="padding:0 24px;">
+            <div class="sec-row">
+              <div class="sec-row-icon green"><i class="bi bi-plus-circle-fill"></i></div>
+              <div class="sec-row-body">
+                <div class="sec-row-title">Kanjivaram Silk Saree purchase</div>
+                <div class="sec-row-desc">1 April 2026 · Order #TV-20264892</div>
+              </div>
+              <div style="font-weight:700;color:#2d8a5e;font-family:'Playfair Display',serif;">+850 pts</div>
+            </div>
+            <div class="sec-row">
+              <div class="sec-row-icon green"><i class="bi bi-plus-circle-fill"></i></div>
+              <div class="sec-row-body">
+                <div class="sec-row-title">Anarkali Kurta Set purchase</div>
+                <div class="sec-row-desc">18 March 2026 · Order #TV-20263751</div>
+              </div>
+              <div style="font-weight:700;color:#2d8a5e;font-family:'Playfair Display',serif;">+330 pts</div>
+            </div>
+            <div class="sec-row">
+              <div class="sec-row-icon red"><i class="bi bi-dash-circle-fill"></i></div>
+              <div class="sec-row-body">
+                <div class="sec-row-title">Redeemed — 10% coupon</div>
+                <div class="sec-row-desc">10 March 2026</div>
+              </div>
+              <div style="font-weight:700;color:#c0392b;font-family:'Playfair Display',serif;">−200 pts</div>
+            </div>
+            <div class="sec-row">
+              <div class="sec-row-icon green"><i class="bi bi-plus-circle-fill"></i></div>
+              <div class="sec-row-body">
+                <div class="sec-row-title">Birthday bonus reward</div>
+                <div class="sec-row-desc">15 June 2025</div>
+              </div>
+              <div style="font-weight:700;color:#2d8a5e;font-family:'Playfair Display',serif;">+500 pts</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="coupons">
+      <div class="sec-header">
+        <div>
+          <div class="sec-title">My Coupons</div>
+          <div class="sec-sub">Active discount codes &amp; offers</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="panel" style="margin:0;">
+          <div class="panel-body" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+            <div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,rgba(155,58,34,.12),rgba(192,97,74,.07));display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:1px solid rgba(155,58,34,.15);flex-shrink:0;">🎁</div>
+            <div style="flex:1;min-width:140px;">
+              <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:var(--c-brown);margin-bottom:3px;">TV15GOLD</div>
+              <div style="font-size:.78rem;color:var(--c-muted);">15% off on orders above ₹5,000 · Expires 30 June 2026</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.4rem;color:var(--c-accent);">15% OFF</div>
+              <button class="btn btn-primary" style="margin-top:6px;padding:7px 16px;font-size:.72rem;" onclick="toast('Coupon TV15GOLD copied ✓')"><i class="bi bi-copy"></i> Copy Code</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel" style="margin:0;">
+          <div class="panel-body" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
+            <div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(135deg,rgba(184,147,74,.14),rgba(212,175,112,.08));display:flex;align-items:center;justify-content:center;font-size:1.6rem;border:1px solid rgba(184,147,74,.25);flex-shrink:0;">✨</div>
+            <div style="flex:1;min-width:140px;">
+              <div style="font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:var(--c-brown);margin-bottom:3px;">FREESHIP100</div>
+              <div style="font-size:.78rem;color:var(--c-muted);">Free shipping on any order · Expires 15 May 2026</div>
+            </div>
+            <div style="text-align:right;flex-shrink:0;">
+              <div style="font-family:'Playfair Display',serif;font-weight:800;font-size:1.4rem;color:var(--c-gold);">FREE SHIP</div>
+              <button class="btn btn-primary" style="margin-top:6px;padding:7px 16px;font-size:.72rem;" onclick="toast('Coupon FREESHIP100 copied ✓')"><i class="bi bi-copy"></i> Copy Code</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="security">
+      <div class="sec-header">
+        <div>
+          <div class="sec-title">Security</div>
+          <div class="sec-sub">Keep your account safe and secure</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-head-icon"><i class="bi bi-shield-lock"></i></div>
+          <div class="panel-head-text">
+            <div class="panel-title">Account Protection</div>
+            <div class="panel-subtitle">Authentication &amp; access control</div>
+          </div>
+        </div>
+        <div class="panel-body" style="padding:0 24px;">
+          <div class="sec-row">
+            <div class="sec-row-icon green"><i class="bi bi-phone-fill"></i></div>
+            <div class="sec-row-body">
+              <div class="sec-row-title">Two-Factor Authentication</div>
+              <div class="sec-row-desc">OTP sent to +91 98765 43210 on every login · Currently active</div>
+            </div>
+            <label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div></label>
+          </div>
+          <div class="sec-row">
+            <div class="sec-row-icon blue"><i class="bi bi-envelope-fill"></i></div>
+            <div class="sec-row-body">
+              <div class="sec-row-title">Login Alerts by Email</div>
+              <div class="sec-row-desc">Get notified when a new device signs into your account</div>
+            </div>
+            <label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div></label>
+          </div>
+          <div class="sec-row">
+            <div class="sec-row-icon amber"><i class="bi bi-key-fill"></i></div>
+            <div class="sec-row-body">
+              <div class="sec-row-title">Change Password</div>
+              <div class="sec-row-desc">Last changed 3 months ago</div>
+            </div>
+            <button class="btn btn-ghost" onclick="toast('Password reset link sent ✓')" style="white-space:nowrap;">Change</button>
+          </div>
+          <div class="sec-row">
+            <div class="sec-row-icon red"><i class="bi bi-trash3-fill"></i></div>
+            <div class="sec-row-body">
+              <div class="sec-row-title">Delete Account</div>
+              <div class="sec-row-desc">Permanently remove your account and all associated data</div>
+            </div>
+            <button class="btn btn-danger" onclick="toast('Please contact support to delete your account')" style="white-space:nowrap;">Delete</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-head-icon"><i class="bi bi-laptop"></i></div>
+          <div class="panel-head-text">
+            <div class="panel-title">Active Sessions</div>
+            <div class="panel-subtitle">Devices currently logged in</div>
+          </div>
+        </div>
+        <div class="panel-body" style="padding:0 24px;">
+          <div class="sec-row">
+            <div class="sec-row-icon green"><i class="bi bi-phone-fill"></i></div>
+            <div class="sec-row-body">
+              <div class="sec-row-title">iPhone 15 Pro · Mumbai</div>
+              <div class="sec-row-desc">Current session · Last active: now</div>
+            </div>
+            <span style="font-size:.7rem;color:#2d8a5e;font-weight:600;background:rgba(45,138,94,.1);padding:3px 10px;border-radius:50px;">Active</span>
+          </div>
+          <div class="sec-row">
+            <div class="sec-row-icon blue"><i class="bi bi-laptop-fill"></i></div>
+            <div class="sec-row-body">
+              <div class="sec-row-title">MacBook Pro · Pune</div>
+              <div class="sec-row-desc">Last active: 2 hours ago · Chrome</div>
+            </div>
+            <button class="btn btn-danger" onclick="toast('Session revoked ✓')" style="padding:5px 12px;font-size:.72rem;">Revoke</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="notifications-settings">
+      <div class="sec-header">
+        <div>
+          <div class="sec-title">Notification Preferences</div>
+          <div class="sec-sub">Choose how Telpha Vastra keeps you informed</div>
+        </div>
+        <button class="btn btn-primary" onclick="toast('Preferences saved ✓')"><i class="bi bi-check-lg"></i> Save</button>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-head-icon"><i class="bi bi-bag-fill"></i></div>
+          <div class="panel-head-text"><div class="panel-title">Orders &amp; Delivery</div></div>
+        </div>
+        <div class="panel-body" style="padding:0 24px;">
+          <div class="sec-row"><div class="sec-row-icon green"><i class="bi bi-truck"></i></div><div class="sec-row-body"><div class="sec-row-title">Shipping updates</div><div class="sec-row-desc">Track your parcels in real time</div></div><label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div></label></div>
+          <div class="sec-row"><div class="sec-row-icon green"><i class="bi bi-check-circle"></i></div><div class="sec-row-body"><div class="sec-row-title">Order confirmation</div><div class="sec-row-desc">Receive order receipts &amp; invoices</div></div><label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div></label></div>
+          <div class="sec-row"><div class="sec-row-icon amber"><i class="bi bi-arrow-clockwise"></i></div><div class="sec-row-body"><div class="sec-row-title">Return &amp; refund status</div><div class="sec-row-desc">Updates on your return requests</div></div><label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div></label></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-head-icon"><i class="bi bi-megaphone-fill"></i></div>
+          <div class="panel-head-text"><div class="panel-title">Offers &amp; Promotions</div></div>
+        </div>
+        <div class="panel-body" style="padding:0 24px;">
+          <div class="sec-row"><div class="sec-row-icon amber"><i class="bi bi-fire"></i></div><div class="sec-row-body"><div class="sec-row-title">Flash sales &amp; exclusive offers</div><div class="sec-row-desc">Be first to know about limited-time deals</div></div><label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div></label></div>
+          <div class="sec-row"><div class="sec-row-icon blue"><i class="bi bi-ticket-perforated"></i></div><div class="sec-row-body"><div class="sec-row-title">Coupon &amp; reward alerts</div><div class="sec-row-desc">New coupons and point expiry reminders</div></div><label class="toggle"><input type="checkbox" checked><div class="toggle-track"></div></label></div>
+          <div class="sec-row"><div class="sec-row-icon red"><i class="bi bi-envelope-fill"></i></div><div class="sec-row-body"><div class="sec-row-title">Marketing emails</div><div class="sec-row-desc">New collection launches and style guides</div></div><label class="toggle"><input type="checkbox"><div class="toggle-track"></div></label></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ── Navigation ── */
+function showSection(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.snav-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── Toast ── */
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('on');
+  clearTimeout(window._tt);
+  window._tt = setTimeout(() => el.classList.remove('on'), 2800);
+}
+</script>
+</body>
+</html>
