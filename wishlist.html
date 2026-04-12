@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wishlist — Telpha Vastra</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="account.css">
+  <link rel="stylesheet" href="wishlist.css">
+</head>
+
+<body>
+
+<!-- 🔥 NAVBAR SAME AS ACCOUNT -->
+<nav class="topnav">
+  <div class="nav-brand">Telpha <span>Vastra</span></div>
+
+  <div class="nav-spacer"></div>
+
+  <button class="theme-toggle" onclick="toggleTheme()">
+    <span id="themeLabel">Dark</span>
+  </button>
+
+  <button class="browse-btn">Browse</button>
+</nav>
+
+<!-- 🔥 MAIN -->
+<div class="wishlist-container">
+
+  <div class="section-header">
+    <h1>My Wishlist ❤️</h1>
+    <p><span id="count">3</span> items saved</p>
+  </div>
+
+  <!-- GRID -->
+  <div class="wishlist-grid" id="wishlist">
+
+    <!-- CARD -->
+    <div class="wish-card">
+      <div class="wish-img">🥻</div>
+
+      <div class="wish-body">
+        <h4>Chanderi Silk Saree</h4>
+        <p class="price">₹6999</p>
+
+        <div class="wish-actions">
+          <button onclick="moveToCart(this)">Move to Cart</button>
+          <button class="remove" onclick="removeItem(this)">Remove</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wish-card">
+      <div class="wish-img">👘</div>
+
+      <div class="wish-body">
+        <h4>Designer Lehenga</h4>
+        <p class="price">₹14500</p>
+
+        <div class="wish-actions">
+          <button onclick="moveToCart(this)">Move to Cart</button>
+          <button class="remove" onclick="removeItem(this)">Remove</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="wish-card">
+      <div class="wish-img">🌸</div>
+
+      <div class="wish-body">
+        <h4>Floral Kurti Set</h4>
+        <p class="price">₹2199</p>
+
+        <div class="wish-actions">
+          <button onclick="moveToCart(this)">Move to Cart</button>
+          <button class="remove" onclick="removeItem(this)">Remove</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div id="emptyState" class="empty-state" style="display:none;">
+    <h2>Your Wishlist is Empty 💔</h2>
+    <p>Start adding your favorite styles</p>
+    <button onclick="goShopping()">Browse Collection</button>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<script src="wishlist.js"></script>
+</body>
+</html>
