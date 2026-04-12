@@ -1,0 +1,109 @@
+.wishlist-container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 30px 20px;
+}
+
+/* GRID */
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* CARD */
+.wish-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: 0.25s;
+}
+
+.wish-card:hover {
+  transform: translateY(-5px);
+}
+
+/* IMAGE */
+.wish-img {
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  background: linear-gradient(135deg,#f3e5d6,#ead5c0);
+}
+
+/* BODY */
+.wish-body {
+  padding: 14px;
+}
+
+.wish-body h4 {
+  font-family: "Playfair Display";
+  font-size: 1rem;
+  margin-bottom: 6px;
+}
+
+.price {
+  font-family: "Jost";
+  color: var(--brand);
+  font-size: 0.95rem;
+}
+
+/* ACTIONS */
+.wish-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.wish-actions button {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-family: "Jost";
+}
+
+.wish-actions button:first-child {
+  background: var(--brand);
+  color: white;
+}
+
+.remove {
+  background: #eee;
+}
+
+/* EMPTY */
+.empty-state {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.empty-state h2 {
+  font-family: "Playfair Display";
+}
+
+.empty-state button {
+  margin-top: 15px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  border: none;
+  background: var(--brand);
+  color: white;
+}
+
+/* RESPONSIVE */
+@media (max-width:900px){
+  .wishlist-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media (max-width:600px){
+  .wishlist-grid {
+    grid-template-columns: 1fr;
+  }
+}

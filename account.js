@@ -1,93 +1,132 @@
-function openTab(tabId, element) {
-  document.querySelectorAll(".tab").forEach((tab) => {
-    tab.classList.remove("active");
+function showSection(sectionId, clickedButton) {
+  const sections = document.querySelectorAll(".content-section");
+  const links = document.querySelectorAll(".side-link");
+
+  sections.forEach((section) => {
+    section.classList.remove("active");
   });
 
-  document.getElementById(tabId).classList.add("active");
-
-  document.querySelectorAll(".sidebar li").forEach((li) => {
-    li.classList.remove("active");
+  links.forEach((link) => {
+    link.classList.remove("active");
   });
 
-  if (element) {
-    element.classList.add("active");
+  const target = document.getElementById(sectionId);
+  if (target) {
+    target.classList.add("active");
   }
 
-  if (window.innerWidth <= 992) {
-    document.querySelector(".sidebar").classList.remove("open");
+  if (clickedButton) {
+    clickedButton.classList.add("active");
+  }
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
+}
+function toggleTheme() {
+  const html = document.documentElement;
+  const icon = document.getElementById("themeIcon");
+  const label = document.getElementById("themeLabel");
+
+  html.classList.toggle("dark");
+
+  const isDark = html.classList.contains("dark");
+
+  if (isDark) {
+    icon.className = "bi bi-sun";
+    label.textContent = "Light";
+    localStorage.setItem("theme", "dark");
+  } else {
+    icon.className = "bi bi-moon-stars";
+    label.textContent = "Dark";
+    localStorage.setItem("theme", "light");
   }
 }
 
-// LOGOUT
-function logout() {
-  sessionStorage.removeItem("isLoggedIn");
-  alert("Logged out!");
-  window.location.href = "login.html";
+window.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme");
+
+  if (savedTheme === "dark") {
+    document.documentElement.classList.add("dark");
+
+    const icon = document.getElementById("themeIcon");
+    const label = document.getElementById("themeLabel");
+
+    if (icon) icon.className = "bi bi-sun";
+    if (label) label.textContent = "Light";
+  }
+
+  loadProfile();
+});
+function getInitials(firstName, lastName) {
+  const first = firstName ? firstName.charAt(0).toUpperCase() : "";
+  const last = lastName ? lastName.charAt(0).toUpperCase() : "";
+  return first + last || "U";
 }
 
-// DARK MODE
-function toggleDark() {
-  document.body.classList.toggle("dark");
-}
+function updateProfileUI(profile) {
+  const firstName = profile.firstName || "User";
+  const lastName = profile.lastName || "";
+  const fullName = `${firstName} ${lastName}`.trim();
+  const email = profile.email || "user@email.com";
+  const initials = getInitials(firstName, lastName);
 
-// MENU
-function toggleMenu() {
-  document.querySelector(".sidebar").classList.toggle("open");
-}
+  document.getElementById("displayName").textContent = fullName;
+  document.getElementById("displayEmail").textContent = email;
+  document.getElementById("greetingName").textContent = firstName;
+  document.getElementById("loyaltyName").textContent = fullName;
+  document.getElementById("profileTopName").textContent = fullName;
 
-// EDIT MODAL
-function openEdit() {
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  document.getElementById("editName").value = user?.name || "";
-  document.getElementById("editEmail").value = user?.email || "";
-  document.getElementById("editPhone").value = user?.phone || "";
-
-  document.getElementById("editModal").style.display = "flex";
-}
-
-function closeEdit() {
-  document.getElementById("editModal").style.display = "none";
+  document.getElementById("sidebarInitials").textContent = initials;
+  document.getElementById("profileInitials").textContent = initials;
 }
 
 function saveProfile() {
-  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const profile = {
+    firstName: document.getElementById("firstName").value,
+    lastName: document.getElementById("lastName").value,
+    email: document.getElementById("emailAddress").value,
+    phone: document.getElementById("phoneNumber").value
+  };
 
-  user.name = document.getElementById("editName").value;
-  user.email = document.getElementById("editEmail").value;
-  user.phone = document.getElementById("editPhone").value;
-
-  localStorage.setItem("user", JSON.stringify(user));
-
-  alert("Profile Updated ✅");
-  location.reload();
+  localStorage.setItem("tvUserProfile", JSON.stringify(profile));
+  updateProfileUI(profile);
+  showToast("Profile saved successfully");
 }
 
-// CLOSE MODAL ON OUTSIDE CLICK
-window.addEventListener("click", function (e) {
-  const modal = document.getElementById("editModal");
-  if (e.target === modal) {
-    closeEdit();
-  }
+function loadProfile() {
+  const data = localStorage.getItem("tvUserProfile");
+  if (!data) return;
+
+  const profile = JSON.parse(data);
+  updateProfileUI(profile);
+
+  document.getElementById("firstName").value = profile.firstName || "";
+  document.getElementById("lastName").value = profile.lastName || "";
+  document.getElementById("emailAddress").value = profile.email || "";
+  document.getElementById("phoneNumber").value = profile.phone || "";
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  loadProfile();
 });
-
-// LOAD USER + AVATAR
-window.onload = () => {
-  const user = JSON.parse(localStorage.getItem("user"));
-
-  if (user) {
-    document.getElementById("userName").innerText = user.name || "User Name";
-    document.getElementById("userEmail").innerText =
-      user.email || "user@email.com";
-
-    const avatar = document.getElementById("avatar");
-
-    if (user.gender === "male") {
-      avatar.src = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
-    } else if (user.gender === "female") {
-      avatar.src = "https://cdn-icons-png.flaticon.com/512/3135/3135789.png";
-    } else {
-      avatar.src = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
-    }
-  }
-};
+function logoutUser() {
+  showToast("Logged out successfully");
+  setTimeout(() => {
+    window.location.href = "signin.html";
+  }, 800);
+}
