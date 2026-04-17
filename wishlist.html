@@ -1,97 +1,419 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Wishlist — Telpha Vastra</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="account.css">
-  <link rel="stylesheet" href="wishlist.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Wishlist — TelphaVastra</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,600&family=Poppins:wght@300;400;500;600&family=Montserrat:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="Wishlist.css">
 </head>
-
 <body>
 
-<!-- 🔥 NAVBAR SAME AS ACCOUNT -->
-<nav class="topnav">
-  <div class="nav-brand">Telpha <span>Vastra</span></div>
+<!-- TOP STRIP -->
+<div class="tstrip">
+  <div class="tsoc">
+    <a href="#" class="ig"><i class="bi bi-instagram"></i></a>
+    <a href="#" class="fb"><i class="bi bi-facebook"></i></a>
+    <a href="#" class="pi"><i class="bi bi-pinterest"></i></a>
+    <a href="#" class="yt"><i class="bi bi-youtube"></i></a>
+    <a href="#" class="tw"><i class="bi bi-twitter-x"></i></a>
+    <a href="#" class="wa"><i class="bi bi-whatsapp"></i></a>
+  </div>
+  <a href="#"><i class="bi bi-truck"></i> Free shipping on orders above ₹999</a>
+  <a href="#"><i class="bi bi-tag-fill"></i> Use code VASTRA15 — 15% off today!</a>
+</div>
 
-  <div class="nav-spacer"></div>
-
-  <button class="theme-toggle" onclick="toggleTheme()">
-    <span id="themeLabel">Dark</span>
-  </button>
-
-  <button class="browse-btn">Browse</button>
+<!-- NAVBAR -->
+<nav id="mainNav">
+  <div class="nav-main">
+    <a class="brand" href="#"><em>Telpha</em>Vastra</a>
+    <ul class="nlinks">
+      <li><a href="#"><i class="bi bi-house-heart-fill ic-home"></i> Home</a></li>
+      <li><a href="#"><i class="bi bi-bag-heart-fill ic-shop"></i> Shop</a></li>
+      <li><a href="#"><i class="bi bi-grid-1x2 ic-col"></i> Collections</a></li>
+      <li><a href="#"><i class="bi bi-fire ic-sale"></i> Sale</a></li>
+      <li><a href="#"><i class="bi bi-headset ic-cont"></i> Contact</a></li>
+    </ul>
+    <div class="nctrl">
+      <button class="gpill ai-pill"><i class="bi bi-magic"></i> AI Try-On</button>
+      <div class="ndiv"></div>
+      <button class="ibtn s" title="Search"><i class="bi bi-search"></i></button>
+      <button class="ibtn w" title="Wishlist"><i class="bi bi-heart-fill" style="color:#ec4899"></i></button>
+      <button class="ibtn c" title="Cart" style="position:relative"><i class="bi bi-bag"></i><span class="cbadge" id="cartBadge">3</span></button>
+      <div class="ndiv"></div>
+      <button class="auth-btn" title="Account"><i class="bi bi-person-fill"></i></button>
+    </div>
+  </div>
 </nav>
 
-<!-- 🔥 MAIN -->
-<div class="wishlist-container">
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="#">Home</a>
+  <i class="bi bi-chevron-right" style="font-size:10px;opacity:.5"></i>
+  <span>My Wishlist</span>
+</div>
 
-  <div class="section-header">
-    <h1>My Wishlist ❤️</h1>
-    <p><span id="count">3</span> items saved</p>
+<!-- HERO BANNER -->
+<div class="wish-hero">
+  <div class="wh-left">
+    <h1>Your <em>Wishlist</em><br>Awaits You</h1>
+    <p>Save your favourite pieces and shop them whenever the moment feels right — curated just for you.</p>
+  </div>
+  <div class="wh-stats">
+    <div class="wh-stat">
+      <div class="num" id="heroCount">8</div>
+      <div class="lbl">Items Saved</div>
+    </div>
+    <div class="wh-stat">
+      <div class="num" id="heroTotal">₹18,692</div>
+      <div class="lbl">Total Value</div>
+    </div>
+    <div class="wh-stat">
+      <div class="num" id="heroSavings">₹7,540</div>
+      <div class="lbl">You Save</div>
+    </div>
+  </div>
+</div>
+
+<!-- TOOLBAR -->
+<div class="wish-toolbar">
+  <div class="wt-left">
+    <div class="wt-count" id="wCount">8 Items <span>in your wishlist</span></div>
+  </div>
+  <div class="wt-right">
+    <button class="fchip active" onclick="filterCards('all',this)"><i class="bi bi-grid-3x3-gap"></i> All</button>
+    <button class="fchip" onclick="filterCards('kurta',this)">Kurtas</button>
+    <button class="fchip" onclick="filterCards('saree',this)">Sarees</button>
+    <button class="fchip" onclick="filterCards('lehenga',this)">Lehengas</button>
+    <select class="sort-sel" id="sortSel" onchange="sortCards(this.value)">
+      <option value="">Sort: Recently Added</option>
+      <option value="low">Price: Low to High</option>
+      <option value="high">Price: High to Low</option>
+      <option value="disc">Highest Discount</option>
+    </select>
+    <button class="btn-moveall" onclick="moveAllToCart()"><i class="bi bi-bag-plus"></i> Move All to Cart</button>
+  </div>
+</div>
+
+<!-- WISHLIST GRID -->
+<div class="wish-grid" id="wishGrid">
+
+  <div class="wcard" data-cat="kurta" data-price="1299" data-disc="35" data-orig="1999">
+    <div class="card-img">
+      <img src="istockphoto-2233341512-1024x1024.jpg" alt="Embroidered Kurta">
+      <div class="card-badges"><span class="badge badge-bestseller">Bestseller</span><span class="badge badge-sale">35% OFF</span></div>
+      <div class="card-actions">
+        <button class="qa-btn qa-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+        <button class="qa-btn qa-try"><i class="bi bi-magic"></i> Try On</button>
+      </div>
+      <button class="btn-remove" onclick="removeCard(this)"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="card-body">
+      <div class="card-brand">TelphaVastra</div>
+      <div class="card-name">Zardozi Embroidered Kurta</div>
+      <div class="card-sub">Soft Cotton · Straight Fit</div>
+      <div class="card-rating"><div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div><span class="rat-count">4.5 (243)</span></div>
+      <div class="card-colors"><div class="color-dot" style="background:#d4a0a0;"></div><div class="color-dot" style="background:#8b6914;"></div><div class="color-dot" style="background:#2d5a3d;"></div><span class="color-more">+2</span></div>
+      <div class="card-sizes"><span class="size-pill sel">XS</span><span class="size-pill">S</span><span class="size-pill">M</span><span class="size-pill">L</span><span class="size-pill out">XL</span></div>
+      <div class="card-spacer"></div>
+      <div class="card-price"><span class="price-now">₹1,299</span><span class="price-was">₹1,999</span><span class="price-off">35% off</span></div>
+      <button class="card-cta" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Move to Cart</button>
+      <div class="card-added"><i class="bi bi-clock"></i> Added 2 days ago</div>
+    </div>
   </div>
 
-  <!-- GRID -->
-  <div class="wishlist-grid" id="wishlist">
-
-    <!-- CARD -->
-    <div class="wish-card">
-      <div class="wish-img">🥻</div>
-
-      <div class="wish-body">
-        <h4>Chanderi Silk Saree</h4>
-        <p class="price">₹6999</p>
-
-        <div class="wish-actions">
-          <button onclick="moveToCart(this)">Move to Cart</button>
-          <button class="remove" onclick="removeItem(this)">Remove</button>
-        </div>
+  <div class="wcard" data-cat="saree" data-price="3499" data-disc="22" data-orig="4499">
+    <div class="card-img">
+      <img src="bulbul-ahmed-blEZQCHeLh4-unsplash.jpg" alt="Banarasi Saree">
+      <div class="card-badges"><span class="badge badge-trending">Trending</span><span class="badge badge-sale">22% OFF</span></div>
+      <div class="card-actions">
+        <button class="qa-btn qa-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+        <button class="qa-btn qa-try"><i class="bi bi-magic"></i> Try On</button>
       </div>
+      <button class="btn-remove" onclick="removeCard(this)"><i class="bi bi-x-lg"></i></button>
     </div>
-
-    <div class="wish-card">
-      <div class="wish-img">👘</div>
-
-      <div class="wish-body">
-        <h4>Designer Lehenga</h4>
-        <p class="price">₹14500</p>
-
-        <div class="wish-actions">
-          <button onclick="moveToCart(this)">Move to Cart</button>
-          <button class="remove" onclick="removeItem(this)">Remove</button>
-        </div>
-      </div>
+    <div class="card-body">
+      <div class="card-brand">TelphaVastra Heritage</div>
+      <div class="card-name">Banarasi Silk Saree</div>
+      <div class="card-sub">Pure Silk · With Blouse Piece</div>
+      <div class="card-rating"><div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div><span class="rat-count">5.0 (89)</span></div>
+      <div class="card-colors"><div class="color-dot" style="background:#8b0000;"></div><div class="color-dot" style="background:#1a1a8b;"></div><div class="color-dot" style="background:#556b2f;"></div></div>
+      <div class="card-spacer"></div>
+      <div class="card-price"><span class="price-now">₹3,499</span><span class="price-was">₹4,499</span><span class="price-off">22% off</span></div>
+      <button class="card-cta" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Move to Cart</button>
+      <div class="card-added"><i class="bi bi-clock"></i> Added 5 days ago</div>
     </div>
-
-    <div class="wish-card">
-      <div class="wish-img">🌸</div>
-
-      <div class="wish-body">
-        <h4>Floral Kurti Set</h4>
-        <p class="price">₹2199</p>
-
-        <div class="wish-actions">
-          <button onclick="moveToCart(this)">Move to Cart</button>
-          <button class="remove" onclick="removeItem(this)">Remove</button>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- EMPTY STATE -->
-  <div id="emptyState" class="empty-state" style="display:none;">
-    <h2>Your Wishlist is Empty 💔</h2>
-    <p>Start adding your favorite styles</p>
-    <button onclick="goShopping()">Browse Collection</button>
+  <div class="wcard" data-cat="lehenga" data-price="4999" data-disc="40" data-orig="8299">
+    <div class="card-img">
+      <img src="ardy-arjun-dn_Z-khTjpw-unsplash.jpg" alt="Bridal Lehenga">
+      <div class="card-badges"><span class="badge badge-limited">Limited</span><span class="badge badge-sale">40% OFF</span></div>
+      <div class="card-actions">
+        <button class="qa-btn qa-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+        <button class="qa-btn qa-try"><i class="bi bi-magic"></i> Try On</button>
+      </div>
+      <button class="btn-remove" onclick="removeCard(this)"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="card-body">
+      <div class="card-brand">TelphaVastra Bridal</div>
+      <div class="card-name">Floral Mirror Lehenga Set</div>
+      <div class="card-sub">Georgette · 3 Piece Set</div>
+      <div class="card-rating"><div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div><span class="rat-count">4.0 (156)</span></div>
+      <div class="card-colors"><div class="color-dot" style="background:#c0392b;"></div><div class="color-dot" style="background:#e91e8c;"></div><span class="color-more">+3</span></div>
+      <div class="card-sizes"><span class="size-pill">S</span><span class="size-pill sel">M</span><span class="size-pill">L</span><span class="size-pill out">XL</span></div>
+      <div class="card-notify"><i class="bi bi-bell"></i> Notify me when XL is available</div>
+      <div class="card-spacer"></div>
+      <div class="card-price"><span class="price-now">₹4,999</span><span class="price-was">₹8,299</span><span class="price-off">40% off</span></div>
+      <button class="card-cta" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Move to Cart</button>
+      <div class="card-added"><i class="bi bi-clock"></i> Added 1 week ago</div>
+    </div>
+  </div>
+
+  <div class="wcard" data-cat="kurta" data-price="899" data-disc="28" data-orig="1249">
+    <div class="card-img">
+      <img src="ChatGPT Image Apr 16, 2026, 07_02_46 PM.png" alt="Block Print Kurta">
+      <div class="card-badges"><span class="badge badge-new">New</span><span class="badge badge-sale">28% OFF</span></div>
+      <div class="card-actions">
+        <button class="qa-btn qa-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+        <button class="qa-btn qa-try"><i class="bi bi-magic"></i> Try On</button>
+      </div>
+      <button class="btn-remove" onclick="removeCard(this)"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="card-body">
+      <div class="card-brand">TelphaVastra</div>
+      <div class="card-name">Rajasthani Block Print Kurti</div>
+      <div class="card-sub">Hand Block Print · A-Line</div>
+      <div class="card-rating"><div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div><span class="rat-count">4.6 (312)</span></div>
+      <div class="card-colors"><div class="color-dot" style="background:#e67e22;"></div><div class="color-dot" style="background:#2980b9;"></div><div class="color-dot" style="background:#27ae60;"></div><span class="color-more">+4</span></div>
+      <div class="card-sizes"><span class="size-pill">XS</span><span class="size-pill sel">S</span><span class="size-pill">M</span><span class="size-pill">L</span></div>
+      <div class="card-spacer"></div>
+      <div class="card-price"><span class="price-now">₹899</span><span class="price-was">₹1,249</span><span class="price-off">28% off</span></div>
+      <button class="card-cta" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Move to Cart</button>
+      <div class="card-added"><i class="bi bi-clock"></i> Added today</div>
+    </div>
+  </div>
+
+  <div class="wcard" data-cat="saree" data-price="2199" data-disc="30" data-orig="3149">
+    <div class="card-img">
+      <img src="ChatGPT Image Apr 16, 2026, 07_05_29 PM.png" alt="Chanderi Saree">
+      <div class="card-badges"><span class="badge badge-bestseller">Bestseller</span><span class="badge badge-sale">30% OFF</span></div>
+      <div class="card-actions">
+        <button class="qa-btn qa-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+        <button class="qa-btn qa-try"><i class="bi bi-magic"></i> Try On</button>
+      </div>
+      <button class="btn-remove" onclick="removeCard(this)"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="card-body">
+      <div class="card-brand">TelphaVastra Weaves</div>
+      <div class="card-name">Chanderi Printed Saree</div>
+      <div class="card-sub">Chanderi Silk · Lightweight</div>
+      <div class="card-rating"><div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div><span class="rat-count">4.2 (178)</span></div>
+      <div class="card-colors"><div class="color-dot" style="background:#f7dc6f;"></div><div class="color-dot" style="background:#a9cce3;"></div><div class="color-dot" style="background:#d7bde2;"></div></div>
+      <div class="card-spacer"></div>
+      <div class="card-price"><span class="price-now">₹2,199</span><span class="price-was">₹3,149</span><span class="price-off">30% off</span></div>
+      <button class="card-cta" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Move to Cart</button>
+      <div class="card-added"><i class="bi bi-clock"></i> Added 3 days ago</div>
+    </div>
+  </div>
+
+  <div class="wcard" data-cat="lehenga" data-price="3299" data-disc="45" data-orig="5999">
+    <div class="card-img">
+      <img src="ChatGPT Image Apr 16, 2026, 07_08_28 PM.png" alt="Designer Lehenga">
+      <div class="card-badges"><span class="badge badge-sale">45% OFF</span><span class="badge badge-trending">Trending</span></div>
+      <div class="card-actions">
+        <button class="qa-btn qa-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+        <button class="qa-btn qa-try"><i class="bi bi-magic"></i> Try On</button>
+      </div>
+      <button class="btn-remove" onclick="removeCard(this)"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="card-body">
+      <div class="card-brand">TelphaVastra Studio</div>
+      <div class="card-name">Sequin Embellished Lehenga</div>
+      <div class="card-sub">Net + Silk · Party Wear</div>
+      <div class="card-rating"><div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></div><span class="rat-count">4.9 (64)</span></div>
+      <div class="card-colors"><div class="color-dot" style="background:#2c3e50;"></div><div class="color-dot" style="background:#8e44ad;"></div><div class="color-dot" style="background:#e74c3c;"></div><span class="color-more">+1</span></div>
+      <div class="card-sizes"><span class="size-pill">S</span><span class="size-pill sel">M</span><span class="size-pill">L</span></div>
+      <div class="card-spacer"></div>
+      <div class="card-price"><span class="price-now">₹3,299</span><span class="price-was">₹5,999</span><span class="price-off">45% off</span></div>
+      <button class="card-cta" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Move to Cart</button>
+      <div class="card-added"><i class="bi bi-clock"></i> Added 4 days ago</div>
+    </div>
+  </div>
+
+  <div class="wcard" data-cat="kurta" data-price="1599" data-disc="20" data-orig="1999">
+    <div class="card-img">
+      <img src="ChatGPT Image Apr 16, 2026, 07_21_38 PM.png" alt="Anarkali Kurta">
+      <div class="card-badges"><span class="badge badge-new">New</span><span class="badge badge-sale">20% OFF</span></div>
+      <div class="card-actions">
+        <button class="qa-btn qa-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+        <button class="qa-btn qa-try"><i class="bi bi-magic"></i> Try On</button>
+      </div>
+      <button class="btn-remove" onclick="removeCard(this)"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="card-body">
+      <div class="card-brand">TelphaVastra</div>
+      <div class="card-name">Anarkali Flared Kurta Set</div>
+      <div class="card-sub">Muslin · With Palazzo & Dupatta</div>
+      <div class="card-rating"><div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i></div><span class="rat-count">4.3 (201)</span></div>
+      <div class="card-colors"><div class="color-dot" style="background:#c0392b;"></div><div class="color-dot" style="background:#1a5276;"></div><div class="color-dot" style="background:#1e8449;"></div><span class="color-more">+2</span></div>
+      <div class="card-sizes"><span class="size-pill">XS</span><span class="size-pill">S</span><span class="size-pill sel">M</span><span class="size-pill">L</span><span class="size-pill">XL</span></div>
+      <div class="card-spacer"></div>
+      <div class="card-price"><span class="price-now">₹1,599</span><span class="price-was">₹1,999</span><span class="price-off">20% off</span></div>
+      <button class="card-cta" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Move to Cart</button>
+      <div class="card-added"><i class="bi bi-clock"></i> Added today</div>
+    </div>
+  </div>
+
+  <div class="wcard" data-cat="saree" data-price="1899" data-disc="15" data-orig="2249">
+    <div class="card-img">
+      <img src="ChatGPT Image Apr 16, 2026, 07_18_35 PM.png" alt="Linen Saree">
+      <div class="card-badges"><span class="badge badge-limited">Limited</span><span class="badge badge-sale">15% OFF</span></div>
+      <div class="card-actions">
+        <button class="qa-btn qa-cart" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Add to Cart</button>
+        <button class="qa-btn qa-try"><i class="bi bi-magic"></i> Try On</button>
+      </div>
+      <button class="btn-remove" onclick="removeCard(this)"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="card-body">
+      <div class="card-brand">TelphaVastra Linen Co.</div>
+      <div class="card-name">Premium Linen Saree</div>
+      <div class="card-sub">Handwoven Linen · Casual-Chic</div>
+      <div class="card-rating"><div class="stars"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i></div><span class="rat-count">4.7 (95)</span></div>
+      <div class="card-colors"><div class="color-dot" style="background:#bdc3c7;"></div><div class="color-dot" style="background:#f0e6d3;"></div><div class="color-dot" style="background:#5d6d7e;"></div></div>
+      <div class="card-spacer"></div>
+      <div class="card-price"><span class="price-now">₹1,899</span><span class="price-was">₹2,249</span><span class="price-off">15% off</span></div>
+      <button class="card-cta" onclick="addToCart(this)"><i class="bi bi-bag-plus"></i> Move to Cart</button>
+      <div class="card-added"><i class="bi bi-clock"></i> Added 6 days ago</div>
+    </div>
   </div>
 
 </div>
 
-<div id="toast"></div>
+<!-- EMPTY STATE -->
+<div class="wish-empty" id="emptyState">
+  <i class="bi bi-heart empty-icon"></i>
+  <div class="empty-title">Your Wishlist is Empty</div>
+  <div class="empty-sub">Looks like you haven't saved anything yet. Explore our beautiful collections and heart the pieces you love.</div>
+  <button class="btn-shop"><i class="bi bi-bag-heart"></i> Explore Collections</button>
+</div>
 
-<script src="wishlist.js"></script>
+<!-- YOU MAY ALSO LIKE -->
+<div class="suggest-section" id="suggestSection">
+  <div class="sec-title">You May Also <em>Like</em> <i class="bi bi-heart-fill" style="font-size:1.2rem;color:#ec4899"></i></div>
+  <div class="sec-sub">Handpicked picks based on your taste — click the heart to save instantly to your wishlist</div>
+  <div class="suggest-row" id="suggestRow">
+
+    <div class="sug-card">
+      <div class="sug-wishbtn" onclick="addSugToWishlist(this)" title="Add to Wishlist"><i class="bi bi-heart"></i></div>
+      <div class="sug-img"><img src="ChatGPT Image Apr 16, 2026, 07_27_04 PM.png" alt="Phulkari Dupatta Set"></div>
+      <div class="sug-body">
+        <div class="sug-name">Phulkari Dupatta Set</div>
+        <div class="sug-price">₹749</div>
+        <div class="sug-meta" data-price="749" data-orig="749" data-disc="0" data-cat="kurta"></div>
+        <button class="sug-add" onclick="addSugToWishlist(this.closest('.sug-card').querySelector('.sug-wishbtn'))"><i class="bi bi-heart"></i> Add to Wishlist</button>
+      </div>
+    </div>
+
+    <div class="sug-card">
+      <div class="sug-wishbtn" onclick="addSugToWishlist(this)" title="Add to Wishlist"><i class="bi bi-heart"></i></div>
+      <div class="sug-img"><img src="ChatGPT Image Apr 16, 2026, 07_29_49 PM.png" alt="Kantha Stitch Jacket"></div>
+      <div class="sug-body">
+        <div class="sug-name">Kantha Stitch Jacket</div>
+        <div class="sug-price">₹1,499</div>
+        <div class="sug-meta" data-price="1499" data-orig="1999" data-disc="25" data-cat="kurta"></div>
+        <button class="sug-add" onclick="addSugToWishlist(this.closest('.sug-card').querySelector('.sug-wishbtn'))"><i class="bi bi-heart"></i> Add to Wishlist</button>
+      </div>
+    </div>
+
+    <div class="sug-card">
+      <div class="sug-wishbtn" onclick="addSugToWishlist(this)" title="Add to Wishlist"><i class="bi bi-heart"></i></div>
+      <div class="sug-img"><img src="Apr 16, 2026, 07_33_05 PM.png" alt="Chikankari Palazzo Set"></div>
+      <div class="sug-body">
+        <div class="sug-name">Chikankari Palazzo Set</div>
+        <div class="sug-price">₹1,199</div>
+        <div class="sug-meta" data-price="1199" data-orig="1699" data-disc="29" data-cat="kurta"></div>
+        <button class="sug-add" onclick="addSugToWishlist(this.closest('.sug-card').querySelector('.sug-wishbtn'))"><i class="bi bi-heart"></i> Add to Wishlist</button>
+      </div>
+    </div>
+
+    <div class="sug-card">
+      <div class="sug-wishbtn" onclick="addSugToWishlist(this)" title="Add to Wishlist"><i class="bi bi-heart"></i></div>
+      <div class="sug-img"><img src="ChatGPT Image Apr 16, 2026, 07_38_25 PM.png" alt="Bandhani Tie-Dye Saree"></div>
+      <div class="sug-body">
+        <div class="sug-name">Bandhani Tie-Dye Saree</div>
+        <div class="sug-price">₹2,099</div>
+        <div class="sug-meta" data-price="2099" data-orig="2999" data-disc="30" data-cat="saree"></div>
+        <button class="sug-add" onclick="addSugToWishlist(this.closest('.sug-card').querySelector('.sug-wishbtn'))"><i class="bi bi-heart"></i> Add to Wishlist</button>
+      </div>
+    </div>
+
+    <div class="sug-card">
+      <div class="sug-wishbtn" onclick="addSugToWishlist(this)" title="Add to Wishlist"><i class="bi bi-heart"></i></div>
+      <div class="sug-img"><img src="ChatGPT Image Apr 16, 2026, 07_41_27 PM.png" alt="Mirror Work Blouse"></div>
+      <div class="sug-body">
+        <div class="sug-name">Mirror Work Blouse</div>
+        <div class="sug-price">₹699</div>
+        <div class="sug-meta" data-price="699" data-orig="899" data-disc="22" data-cat="kurta"></div>
+        <button class="sug-add" onclick="addSugToWishlist(this.closest('.sug-card').querySelector('.sug-wishbtn'))"><i class="bi bi-heart"></i> Add to Wishlist</button>
+      </div>
+    </div>
+
+    <div class="sug-card">
+      <div class="sug-wishbtn" onclick="addSugToWishlist(this)" title="Add to Wishlist"><i class="bi bi-heart"></i></div>
+      <div class="sug-img"><img src="ChatGPT Image Apr 16, 2026, 07_43_42 PM.png" alt="Pashmina Shawl"></div>
+      <div class="sug-body">
+        <div class="sug-name">Pashmina Shawl</div>
+        <div class="sug-price">₹3,299</div>
+        <div class="sug-meta" data-price="3299" data-orig="4499" data-disc="26" data-cat="kurta"></div>
+        <button class="sug-add" onclick="addSugToWishlist(this.closest('.sug-card').querySelector('.sug-wishbtn'))"><i class="bi bi-heart"></i> Add to Wishlist</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="finn">
+    <div class="frow">
+      <div>
+        <div class="fbrand">TelphaVastra<small>BY TELPHATECH LLP · PUNE</small></div>
+        <p class="fdesc">Handcrafted fashion for the modern Indian soul. Rooted in tradition, styled for today.</p>
+      </div>
+      <div class="fcon">
+        <a href="tel:+917559225557"><i class="bi bi-telephone-fill"></i> +91 75592 25557</a>
+        <a href="mailto:telphatech@gmail.com"><i class="bi bi-envelope-fill"></i> telphatech@gmail.com</a>
+        <a href="https://telphatech.com" target="_blank"><i class="bi bi-globe2"></i> telphatech.com</a>
+        <a href="#"><i class="bi bi-geo-alt-fill"></i> Pune, Maharashtra, India</a>
+      </div>
+      <div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:10.5px;color:#a07060;letter-spacing:.08em;font-weight:700;margin-bottom:10px;">FOLLOW US</div>
+        <div class="fsoc">
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-facebook"></i></a>
+          <a href="#"><i class="bi bi-pinterest"></i></a>
+          <a href="#"><i class="bi bi-youtube"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+          <a href="#"><i class="bi bi-whatsapp"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="fbtm">
+      <div>Crafted with <i class="bi bi-heart-fill fheart"></i> by TelphaTech LLP, Pune</div>
+      <div class="flinks"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Shipping</a><a href="#">Returns</a></div>
+      <div>© 2026 TelphaTech LLP. All rights reserved.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <i class="bi bi-check-circle-fill" id="toastIcon"></i>
+  <span id="toastMsg">Done!</span>
+</div>
+
+<script src="Wishlist.js"></script>
 </body>
 </html>

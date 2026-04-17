@@ -13,6 +13,7 @@ function showSection(sectionId, clickedButton) {
   const target = document.getElementById(sectionId);
   if (target) {
     target.classList.add("active");
+      localStorage.setItem("tvActiveSection", sectionId);
   }
 
   if (clickedButton) {
@@ -71,6 +72,11 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   loadProfile();
+ const savedSection = localStorage.getItem("tvActiveSection");
+  if (savedSection) {
+    const targetBtn = document.querySelector(`.side-link[onclick*="${savedSection}"]`);
+    showSection(savedSection, targetBtn);
+  }
 });
 function getInitials(firstName, lastName) {
   const first = firstName ? firstName.charAt(0).toUpperCase() : "";
